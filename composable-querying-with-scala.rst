@@ -1,6 +1,9 @@
 Composable querying with Scala
 ==============================
 
+:Authors: Jyri-Matti Lähteenmäki
+:Date: 2011-06-28
+
 It's been a while since my last post, but finally I was able to find
 enough time to re-implement the whole querying-thing and experiment with
 composability. My initial implementation was partly mutable (orgh, sorry
@@ -29,7 +32,7 @@ in software science, my generated SQL might be more or less incorrect,
 but it does seem to work correctly on a `h2
 database <http://www.h2database.com/>`__):
 
-::
+.. code:: scala
 
     object Queries {
       def wellPaidEmployees(es: View[Employee]) = for {
@@ -95,7 +98,7 @@ use case classes and in-memory collections. I only need to change
 ``type View[E] = Traversable[E]``. The last of the queries, when
 executed, generates SQL like this:
 
-::
+.. code:: sql
 
     SELECT e48.fullName, 'Old salary: ', e48.salary, 'New salary: ',
           (e48.salary+MOD((e48.salary*2),42))

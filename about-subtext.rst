@@ -1,6 +1,9 @@
 About Subtext
 =============
 
+:Authors: Jyri-Matti Lähteenmäki
+:Date: 2016-01-04
+
 I watch a video, which I highly recommend to everyone:
 
 https://vimeo.com/140738254
@@ -20,7 +23,7 @@ Program logic as text versus table
 
 I wrote the code in Haskell just to get some feeling out of it. :
 
-::
+.. code:: haskell
 
     -- If I forget a case:
     -- warning| Pattern match(es) are non-exhaustive...
@@ -82,7 +85,7 @@ proposed <http://wiki.haskell.org/MultiCase>`__. The compiler could warn
 about incomplete/overlapping patterns. The compiler would "know" about
 the logic and thus could refactor the expressions:
 
-::
+.. code:: haskell
 
     foo6 :: Bool -> Bool -> Bool -> Int
     foo6 _    True True = 3
@@ -97,7 +100,7 @@ feature.
 Fibonacci and readability/editability
 -------------------------------------
 
-::
+.. code:: haskell
 
     -- IMHO this is more readable than a table.
     fib :: Int -> Int
@@ -110,7 +113,7 @@ even though it is for some reason stated in the video that it's not a
 type but an assertion. I don't know what the author means by that since
 they are all "just assertions" in the end...
 
-::
+.. code:: haskell
 
     type Nat = Int -- well, something else here...
     fib2 :: Nat -> Nat
@@ -129,7 +132,7 @@ feature.
 Melee example and maintainability
 ---------------------------------
 
-::
+.. code:: haskell
 
     -- here's one possible implementation.
 

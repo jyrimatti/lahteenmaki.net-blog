@@ -1,6 +1,9 @@
 Java Streams vs C# LINQ vs Java6
 ================================
 
+:Authors: Jyri-Matti Lähteenmäki
+:Date: 2013-04-10
+
 A while back I ran into an article comparing C# LINQ to the upcoming
 Java8 Streams API:
 http://blog.informatech.cr/2013/03/24/java-streams-preview-vs-net-linq/.
@@ -30,7 +33,7 @@ examples using plain old Java6 (released in 2007) using my functional
 library with annotation processors.
 
 #Edit: I have written a
-`follow-up <http://blog.lahteenmaki.net/2014/05/java-streams-vs-c-linq-vs-java6-updated.html>`__
+`follow-up <java-streams-vs-c-linq-vs-java6-updated.html>`_
 with updated examples.
 
 Challenge 1: Filtering
@@ -38,7 +41,7 @@ Challenge 1: Filtering
 
 LINQ :
 
-::
+.. code:: cs
 
     string[] names = { "Sam", "Pamela", "Dave", "Pascal", "Erik" };
     List<string> filteredNames = names.Where(c => c.Contains("am"))
@@ -46,7 +49,7 @@ LINQ :
 
 Java Streams :
 
-::
+.. code:: java
 
     String[] names = {"Sam","Pamela", "Dave", "Pascal", "Erik"};
     List<String> filteredNames = stream(names)
@@ -55,7 +58,7 @@ Java Streams :
 
 Java6 :
 
-::
+.. code:: java
 
     String[] names = { "Sam", "Pamela", "Dave", "Pascal", "Erik" };
     List<string> filteredNames = newList(filter(names, contains("am")));
@@ -65,14 +68,14 @@ Challenge 2: Indexed Filtering
 
 LINQ :
 
-::
+.. code:: cs
 
     string[] names = { "Sam", "Pamela", "Dave", "Pascal", "Erik" };
     var nameList = names.Where((c, index) => c.Length <= index + 1).ToList();
 
 Java Streams :
 
-::
+.. code:: java
 
     String[] names = {"Sam","Pamela", "Dave", "Pascal", "Erik"};
 
@@ -85,7 +88,7 @@ Java Streams :
 
 Java6 :
 
-::
+.. code:: java
 
     String[] names = { "Sam", "Pamela", "Dave", "Pascal", "Erik" };
     List<String> nameList = newList(map(filter(zipWithIndex(names), pred),
@@ -100,7 +103,7 @@ Challenge 3: Selecting/Mapping
 
 LINQ :
 
-::
+.. code:: cs
 
     List<string> nameList1 = new List(){ "Anders", "David", "James",
                                          "Jeff", "Joe", "Erik" };
@@ -109,7 +112,7 @@ LINQ :
 
 Java Streams :
 
-::
+.. code:: java
 
     List<String> nameList1 = asList("Anders", "David", "James",
                                     "Jeff", "Joe", "Erik");
@@ -119,7 +122,7 @@ Java Streams :
 
 Java6 :
 
-::
+.. code:: java
 
     List<String> nameList1 = newList("Anders", "David", "James", "Jeff", "Joe", "Erik");
     foreach(map(nameList1, prepend("Hello! ")),
@@ -130,7 +133,7 @@ Challenge 4: Selecting Many/Flattening
 
 LINQ :
 
-::
+.. code:: cs
 
     Dictionary<string, List<string>> map = new Dictionary<string,List<string>>();
     map.Add("UK", new List<string>() {"Bermingham", "Bradford", "Liverpool"});
@@ -139,7 +142,7 @@ LINQ :
 
 Java Streams :
 
-::
+.. code:: java
 
     Map<String, List<String>> map = new LinkedHashMap<>();
     map.put("UK", asList("Bermingham","Bradford","Liverpool"));
@@ -155,7 +158,7 @@ Java Streams :
 
 Java6 :
 
-::
+.. code:: java
 
     Map<String, List<String>> map = newMap(
         Pair.of("UK", newList("Bermingham", "Bradford", "Liverpool")),
@@ -167,14 +170,14 @@ Challenge 5: Taking an Arbitrary Number of Items
 
 LINQ :
 
-::
+.. code:: cs
 
     int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
     var first4 = numbers.Take(4).ToList();
 
 Java Streams :
 
-::
+.. code:: java
 
     int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13 };
 
@@ -185,7 +188,7 @@ Java Streams :
 
 Java6 :
 
-::
+.. code:: java
 
     int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
     List<Integer> firstFour = newList(take(newArray(numbers), 4));
@@ -195,14 +198,14 @@ Challenge 6: Taking Items Based on Predicate
 
 LINQ :
 
-::
+.. code:: cs
 
     string[] moreNames = { "Sam", "Samuel", "Dave", "Pascal", "Erik",  "Sid" };
     var sNames = moreNames.TakeWhile(c => c.StartsWith("S"));
 
 Java Streams :
 
-::
+.. code:: java
 
     String[] names  = { "Sam","Samuel","Dave","Pascal","Erik","Sid" };
 
@@ -212,7 +215,7 @@ Java Streams :
 
 Java6 :
 
-::
+.. code:: java
 
     String[] names = { "Sam", "Samuel", "Dave", "Pascal", "Erik", "Sid" };
     List<String> found = newList(takeWhile(names, startsWith("S")));
@@ -222,14 +225,14 @@ Challenge 7: Skipping an Arbitrary Number of Items
 
 LINQ :
 
-::
+.. code:: cs
 
     string[] vipNames = { "Sam", "Samuel", "Samu", "Remo", "Arnold","Terry" };
     var skippedList = vipNames.Skip(3).ToList();//Leaving the first 3.
 
 Java Streams :
 
-::
+.. code:: java
 
     String[] vipNames = { "Sam", "Samuel", "Samu", "Remo", "Arnold","Terry" };
 
@@ -238,7 +241,7 @@ Java Streams :
 
 Java6 :
 
-::
+.. code:: java
 
     String[] vipNames = { "Sam", "Samuel", "Samu", "Remo", "Arnold", "Terry" };
     List<String> skippedList = newList(drop(vipNames, 3));
@@ -248,20 +251,20 @@ Challenge 8: Skipping Items Based on Predicate
 
 LINQ :
 
-::
+.. code:: cs
 
     int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 20 };
     var skippedList = numbers.SkipWhile(c => c < 10);
 
 Java Streams :
 
-::
+.. code:: java
 
     //With current streams API I found no way to implement this idiom.
 
 Java6 :
 
-::
+.. code:: java
 
     int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 20 };
     List<Integer> skippedList = newList(dropWhile(newArray(numbers), lessThan(10)));
@@ -271,21 +274,21 @@ Challenge 9: Ordering/Sorting Elements
 
 LINQ :
 
-::
+.. code:: cs
 
     string[] friends = { "Sam", "Pamela", "Dave", "Anders", "Erik" };
     friends = friends.OrderBy(c => c).ToArray();
 
 Java Streams :
 
-::
+.. code:: java
 
     String[] friends = { "Sam", "Pamela", "Dave", "Anders", "Erik" };
     friends = stream(friends).sorted().toArray(String[]::new);
 
 Java6 :
 
-::
+.. code:: java
 
     String[] friends = { "Sam", "Pamela", "Dave", "Anders", "Erik" };
     friends = newArray(sort(friends), String.class);
@@ -295,14 +298,14 @@ Challenge 10: Ordering/Sorting Elements by Specific Criterium
 
 LINQ :
 
-::
+.. code:: cs
 
     string[] friends = { "Sam", "Pamela", "Dave", "Anders", "Erik" };
     friends = friends.OrderBy(c => c.Length).ToArray();
 
 Java Streams :
 
-::
+.. code:: java
 
     String[] friends = { "Sam", "Pamela", "Dave", "Anders", "Erik" };
     friends = stream(friends)
@@ -311,7 +314,7 @@ Java Streams :
 
 Java6 :
 
-::
+.. code:: java
 
     String[] friends = { "Sam", "Pamela", "Dave", "Anders", "Erik" };
     friends = newArray(sort(friends, by(String_.length)), String.class);
@@ -321,7 +324,7 @@ Challenge 11: Ordering/Sorting Elements by Multiple Criteria
 
 LINQ :
 
-::
+.. code:: cs
 
     string[] fruits = {"grape", "passionfruit", "banana",
                        "apple", "orange", "raspberry",
@@ -334,7 +337,7 @@ LINQ :
 
 Java Streams :
 
-::
+.. code:: java
 
     String[] fruits = {"grape", "passionfruit", "banana","apple",
                        "orange", "raspberry","mango", "blueberry" };
@@ -349,7 +352,7 @@ Java Streams :
 
 Java6 :
 
-::
+.. code:: java
 
     String[] fruits = { "grape", "passionfruit", "banana", "apple",
                         "orange", "raspberry", "mango", "blueberry" };
@@ -361,14 +364,14 @@ Challenge 12: Grouping by a Criterium
 
 LINQ :
 
-::
+.. code:: cs
 
     string[] names = {"Sam", "Samuel", "Samu", "Ravi", "Ratna",  "Barsha"};
     var groups = names.GroupBy(c => c.Length);
 
 Java Streams :
 
-::
+.. code:: java
 
     String[] names = {"Sam", "Samuel", "Samu", "Ravi", "Ratna",  "Barsha"};
 
@@ -377,7 +380,7 @@ Java Streams :
 
 Java6 :
 
-::
+.. code:: java
 
     String[] names = { "Sam", "Samuel", "Samu", "Ravi", "Ratna", "Barsha" };
     Map<Integer, List<String>> groups = groupBy(names, String_.length);
@@ -387,7 +390,7 @@ Challenge 13: Filter Distinct Elements
 
 LINQ :
 
-::
+.. code:: cs
 
     string[] songIds = {"Song#1", "Song#2", "Song#2", "Song#2", "Song#3", "Song#1"};
     //This will work as strings implement IComparable
@@ -395,7 +398,7 @@ LINQ :
 
 Java Streams :
 
-::
+.. code:: java
 
     String[] songIds = {"Song#1", "Song#2", "Song#2", "Song#2", "Song#3", "Song#1"};
     //according to Object.equals
@@ -403,7 +406,7 @@ Java Streams :
 
 Java6 :
 
-::
+.. code:: java
 
     String[] songIds = { "Song#1", "Song#2", "Song#2", "Song#2", "Song#3", "Song#1" };
     newSet(songIds);
@@ -413,7 +416,7 @@ Challenge 14: Union of Two Sets
 
 LINQ :
 
-::
+.. code:: cs
 
     List<string> friends1 = new List<string>() {"Anders", "David","James",
                                                 "Jeff", "Joe", "Erik"};
@@ -422,7 +425,7 @@ LINQ :
 
 Java Streams :
 
-::
+.. code:: java
 
     List<String> friends1 = asList("Anders","David","James","Jeff","Joe","Erik");
     List<String> friends2 = asList("Erik","David","Derik");
@@ -431,7 +434,7 @@ Java Streams :
 
 Java6 :
 
-::
+.. code:: java
 
     List<String> friends1 = newList("Anders", "David", "James", "Jeff", "Joe", "Erik");
     List<String> friends2 = newList("Erik", "David", "Derik");
@@ -442,7 +445,7 @@ Challenge 15: First Element
 
 LINQ :
 
-::
+.. code:: cs
 
     string[] otherFriends = {"Sam", "Danny", "Jeff", "Erik", "Anders","Derik"};
     string firstName = otherFriends.First();
@@ -450,7 +453,7 @@ LINQ :
 
 Java Streams :
 
-::
+.. code:: java
 
     String[] otherFriends = {"Sam", "Danny", "Jeff", "Erik", "Anders","Derik"};
     Optional<String> found = stream(otherFriends).findFirst();
@@ -463,7 +466,7 @@ Java Streams :
 
 Java6 :
 
-::
+.. code:: java
 
     String[] otherFriends = { "Sam", "Danny", "Jeff", "Erik", "Anders", "Derik" };
     Option<String> found = headOption(otherFriends);
@@ -477,19 +480,19 @@ Challenge 16: Generate a Range of Numbers
 
 LINQ :
 
-::
+.. code:: cs
 
     var multiplesOfEleven = Enumerable.Range(1, 100).Where(c => c % 11 == 0);
 
 Java Streams :
 
-::
+.. code:: java
 
     IntStream multiplesOfEleven = intRange(1,100).filter(n -> n % 11 == 0);
 
 Java6 :
 
-::
+.. code:: java
 
     Iterable<Integer> multiplesOfEleven = filter(range(1, 100), mod(11).andThen(equalTo(0)));
 
@@ -498,21 +501,21 @@ Challenge 17: All
 
 LINQ :
 
-::
+.. code:: cs
 
     string[] persons = {"Sam", "Danny", "Jeff", "Erik", "Anders","Derik"};
     bool x = persons.All(c => c.Length == 5);
 
 Java Streams :
 
-::
+.. code:: java
 
     String[] persons = {"Sam", "Danny", "Jeff", "Erik", "Anders","Derik"};
     boolean x = stream(persons).allMatch(c -> c.length() == 5);
 
 Java6 :
 
-::
+.. code:: java
 
     String[] persons = { "Sam", "Danny", "Jeff", "Erik", "Anders", "Derik" };
     boolean x = forAll(persons, String_.length.andThen(equalTo(5)));
@@ -522,21 +525,21 @@ Challenge 18: Any
 
 LINQ :
 
-::
+.. code:: cs
 
     string[] persons = {"Sam", "Danny", "Jeff", "Erik", "Anders","Derik"};
     bool x = persons.Any(c => c.Length == 5);
 
 Java Streams :
 
-::
+.. code:: java
 
     String[] persons = {"Sam", "Danny", "Jeff", "Erik", "Anders","Derik"};
     boolean x = stream(persons).anyMatch(c -> c.length() == 5);
 
 Java6 :
 
-::
+.. code:: java
 
     String[] persons = { "Sam", "Danny", "Jeff", "Erik", "Anders", "Derik" };
     boolean x = exists(persons, String_.length.andThen(equalTo(5)));
@@ -546,7 +549,7 @@ Challenge 19: Zip
 
 LINQ :
 
-::
+.. code:: cs
 
     string[] salutations = {"Mr.", "Mrs.", "Ms", "Master"};
     string[] firstNames = {"Samuel", "Jenny", "Joyace", "Sam"};
@@ -558,7 +561,7 @@ LINQ :
 
 Java Streams :
 
-::
+.. code:: java
 
     String[] salutations = {"Mr.", "Mrs.", "Ms", "Master"};
     String[] firstNames = {"Samuel", "Jenny", "Joyace", "Sam"};
@@ -572,7 +575,7 @@ Java Streams :
 
 Java6 :
 
-::
+.. code:: java
 
     String[] salutations = { "Mr.", "Mrs.", "Ms", "Master" };
     String[] firstNames = { "Samuel", "Jenny", "Joyace", "Sam" };

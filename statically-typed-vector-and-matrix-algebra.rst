@@ -1,6 +1,9 @@
 Statically typed Vector and Matrix algebra
 ==========================================
 
+:Authors: Jyri-Matti Lähteenmäki
+:Date: 2012-01-12
+
 I took a `course on Machine Learning <http://www.ml-class.org/>`__ a
 while back, just for fun. `Stanford University <http://stanford.edu/>`__
 seems to have really put some effort into free courses in the Internet,
@@ -45,14 +48,14 @@ imagination, sorry about that.
 Here's a demo. First of all, only a single import is needed to use all
 the functionality:
 
-::
+.. code:: scala
 
     scala> import net.lahteenmaki.scalam._
     import net.lahteenmaki.scalam._
 
 Create some regular vectors containing integers:
 
-::
+.. code:: scala
 
     scala> val v2 = Vector(1,2)
     v2: net.lahteenmaki.scalam.RowVector[Int,D2] = 1  2
@@ -62,7 +65,7 @@ Create some regular vectors containing integers:
 
 or doubles. Actually anything ``scalala.scalar.Scalar[T]``:
 
-::
+.. code:: scala
 
     scala> Vector(1.0,2.0)
     res1: net.lahteenmaki.scalam.RowVector[Double,D2] = 1.00000   2.00000
@@ -70,7 +73,7 @@ or doubles. Actually anything ``scalala.scalar.Scalar[T]``:
 Trying to create a vector with differing element types gives a compiler
 error:
 
-::
+.. code:: scala
 
     scala> Vector(1,2.0)
     <console>:11: error: T is not a scalar value
@@ -79,14 +82,14 @@ error:
 
 Transposing a row vector creates a column vector of the same dimension:
 
-::
+.. code:: scala
 
     scala> v2.T
     res3: net.lahteenmaki.scalam.ColumnVector[Int,D2] =1 2
 
 I included some implicits to create vectors from tuples:
 
-::
+.. code:: scala
 
     scala> (1,2).T
     res4: net.lahteenmaki.scalam.ColumnVector[Int,D2] =1 2
@@ -94,7 +97,7 @@ I included some implicits to create vectors from tuples:
 There's nothing special in scalar multiplication, except that the
 element types change similar to Scalala:
 
-::
+.. code:: scala
 
     scala> v2*2
     res5: net.lahteenmaki.scalam.RowVector[Int,D2] = 2  4
@@ -105,7 +108,7 @@ element types change similar to Scalala:
 Addition should retain the dimensions and be only allowed to vectors of
 the same dimension:
 
-::
+.. code:: scala
 
     scala> v2 + v2
     res7: net.lahteenmaki.scalam.RowVector[Int,D2] = 2  4
@@ -130,7 +133,7 @@ Yes, we did get a compile time error. Splendid.
 
 Vector multiplication is also only defined for compatible sizes:
 
-::
+.. code:: scala
 
     scala> v2 * v2.T
     res10: net.lahteenmaki.scalam.Matrix[Int,D1,D1] = 5
@@ -152,7 +155,7 @@ Nice.
 
 How about concatenating vectors? :
 
-::
+.. code:: scala
 
     scala> v2 ++ v3
     res13: net.lahteenmaki.scalam.RowVector[Int,Add[D2,D3]] = 1  2  1  2  3
@@ -172,7 +175,7 @@ concatenate a row vector with a column vector. Just what I wanted.
 
 Then the classic over-indexing case:
 
-::
+.. code:: scala
 
     scala> v2[D1]
     res15: Int = 1
@@ -192,7 +195,7 @@ n-dimensional vector.
 Same operations can be implemented for matrices, as well as some helper
 methods for constructing simple matrices:
 
-::
+.. code:: scala
 
     scala> val m22 = Matrix.ones[Int,D2]
     m22: net.lahteenmaki.scalam.Matrix[Int,D2,D2] =
@@ -278,7 +281,7 @@ Everything is working for small vectors and matrices, but how about
 bigger ones? I actually only declared dimensions from D1 to D22, but one
 could always declare more, probably generate them:
 
-::
+.. code:: scala
 
     scala> val v7 = Vector(1,2,3,4,5,6,7)
     v7: net.lahteenmaki.scalam.RowVector[Int,D7] = 1  2  3  4  5  6  7

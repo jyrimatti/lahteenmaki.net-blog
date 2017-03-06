@@ -1,3 +1,10 @@
+=========
+Greetings
+=========
+
+:Authors: Jyri-Matti Lähteenmäki
+:Date: 2011-02-05
+
 I felt like I needed a place to write some thoughts and views of
 programming. So, I decided to create a blog. I was going to write a
 wiki-style site in Scala but since my free time is awfully limited, it

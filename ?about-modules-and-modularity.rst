@@ -1,6 +1,8 @@
 About modules and modularity
 ============================
 
+:Authors: Jyri-Matti Lähteenmäki
+
 Once upon a time on a specific tuesday the Internet was shaken and
 stirred (http://www.theregister.co.uk/2016/03/23/npm_left_pad_chaos/) by
 someone breaking half the NPM-packages by removing a *critical*

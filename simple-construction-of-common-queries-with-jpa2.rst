@@ -1,6 +1,9 @@
 Simple construction of common queries with JPA2
 ===============================================
 
+:Authors: Jyri-Matti Lähteenmäki
+:Date: 2012-08-21
+
 In the `previous post <jpa2-still-useless.html>`__ I demonstrated an API
 for executing queries. Now we need some queries. Due to some odd design
 choices, JPA2 Criteria API isn't exactly the easiest API for query
@@ -16,7 +19,7 @@ read.
 Here are methods for all entities of a certain type or a single entity
 with a specific ID, or multiple entities matching a set of IDs:
 
-::
+.. code:: java
 
     <E extends EntityBase<?>> CriteriaQuery<E> all(Class<E> entityClass);
 
@@ -30,7 +33,7 @@ object from the query behind the scenes. We can for example project the
 query to the ID or any single attribute. These are just modifications to
 the underlying *select clause*:
 
-::
+.. code:: java
 
     <E extends EntityBase<?>> CriteriaQuery<Id<E>> id(CriteriaQuery<E> query);
 
@@ -40,7 +43,7 @@ We can also add restrictions, that is, modify the where clause. There's
 nothing really fancy happening here, but the true usefulness may come
 from common restrictions specific to the application in question:
 
-::
+.. code:: java
 
     <E extends EntityBase<?>, T> CriteriaQuery<E> attributeEquals(SingularAttribute<? super E, T> attribute, Option<T> value, CriteriaQuery<E> query);
 
@@ -57,7 +60,7 @@ from common restrictions specific to the application in question:
 Here's a way to use the metamodel attributes to construct a simple query
 performing consecutive inner joins:
 
-::
+.. code:: java
 
     <E extends EntityBase<?>,
     R1 extends EntityBase<?>,
@@ -81,7 +84,7 @@ interface it might actually cover the most common needs.
 Here's an example of querying certain municipality names of employees
 from a department:
 
-::
+.. code:: java
 
     // first find out the ID for Turku. One DB query, single value resultset:
     Id<Municipality> turkuId = dao.get(

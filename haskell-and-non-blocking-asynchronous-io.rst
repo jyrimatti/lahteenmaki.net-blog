@@ -1,6 +1,9 @@
 Haskell and non-blocking asynchronous IO
 ========================================
 
+:Authors: Jyri-Matti Lähteenmäki
+:Date: 2013-01-05
+
 Here begins my journey to the magnificent world of Haskell.
 
 I was chatting with a co-worker a while back about the influence of
@@ -14,7 +17,7 @@ A while back I started implementing a chat server and client. In
 Haskell. Just for fun and to learn the language. Googling for examples I
 quickly wrote something like:
 
-::
+.. code:: haskell
 
     acceptLoop socket = do
         (h,_,_) <- accept socket
@@ -42,7 +45,7 @@ promises?
 Let's first define some long running operation, pretending that it's
 fetching something over a slow network connection, or whatever:
 
-::
+.. code:: haskell
 
     -- some long-running "remote" operation
     longRemoteOperation :: String -> IO (String)
@@ -56,7 +59,7 @@ fetching something over a slow network connection, or whatever:
 Synchronous (that is, sequential) operations would be the basic case.
 This function performs *n* operations one after another:
 
-::
+.. code:: haskell
 
     -- runs n operations synchronously
     sync :: Int -> IO ()
@@ -69,7 +72,7 @@ The two asynchronous versions (green threads and native threads) need a
 hack to prevent the program from exiting before all the threads are
 finished. Please forgive me:
 
-::
+.. code:: haskell
 
     -- runs n operations asynchronously using Haskell green threads
     greenThread :: Int -> IO ()
@@ -95,7 +98,7 @@ little laptop can handle, but they do not resemble the way async
 operations are normally written. So let's write two more functions to
 see how parallel operation differs from sequential in practice:
 
-::
+.. code:: haskell
 
     -- runs 5 operations sequntially
     sequential :: IO ()
@@ -127,7 +130,7 @@ for more information.
 Let's add a main method and perform some timing to make sure everything
 is happening as we expect:
 
-::
+.. code:: haskell
 
     -- module declaration and imports, for completeness...
     module Main where
@@ -155,7 +158,7 @@ Let's first try the simple synchronous version with five operations. In
 each case the code prints a thread-number (or a star) when the thread
 finishes:
 
-::
+.. code:: bash
 
     mac:asyncIO inferior$ time ./asyncIO "sync" 5
     54321
@@ -165,7 +168,7 @@ finishes:
 
 The the whole thing took five seconds as expected. Next the forked:
 
-::
+.. code:: bash
 
     mac:asyncIO inferior$ time ./asyncIO "green" 5
     *****
@@ -181,7 +184,7 @@ The the whole thing took five seconds as expected. Next the forked:
 Both green threads and native threads run similarly, and take about one
 second, as expected. But how about if we increase the number of threads:
 
-::
+.. code:: bash
 
     mac:asyncIO inferior$ time ./asyncIO "green" 2000 > /dev/null
 
@@ -201,7 +204,7 @@ Now if I try with 3000 native threads I get:
 ``asyncIO: user error (Cannot create OS thread.)`` Unfortunately this
 seems to be the OS limit:
 
-::
+.. code:: bash
 
     mac:asyncIO inferior$ sysctl kern.num_taskthreads
     kern.num_taskthreads: 2048
@@ -212,7 +215,7 @@ Still, 20000 and 100000 green threads perform really nice, and I doubt
 that no matter what the limits, 100000 native threads would kill my
 laptop =) :
 
-::
+.. code:: bash
 
     mac:asyncIO inferior$ time ./asyncIO "green" 20000 > /dev/null
 
@@ -231,7 +234,7 @@ number when it finishes. Finally all numbers are printed again as a
 "complete result". See the code if you can't figure out my
 explanation... :
 
-::
+.. code:: bash
 
     mac:asyncIO inferior$ time ./asyncIO "sequential"
     1234512345

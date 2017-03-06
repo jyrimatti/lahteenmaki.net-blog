@@ -1,11 +1,14 @@
 Querying with Scala
 ===================
 
+:Authors: Jyri-Matti Lähteenmäki
+:Date: 2011-02-14
+
 Let's say we have a simple domain model with departments and employees
 (behold my imagination...). Forget all persistence or SQL related stuff,
 let's just have it all in-memory:
 
-::
+.. code:: scala
 
     object InMemory {
       case class Employee(name: String, salary: Option[Int])
@@ -44,7 +47,7 @@ Scala does not force this over-specification. I can use
 for-comprehension for querying, which is quite abstract regarding what's
 actually happening behind the scenes:
 
-::
+.. code:: scala
 
     import InMemory._
 
@@ -70,7 +73,7 @@ move this data to an SQL database?
 First of all, the case classes defining the model are a bit too
 in-memory-specific. Let's change them a bit:
 
-::
+.. code:: scala
 
     import engine._
     import engine.Types._
@@ -118,7 +121,7 @@ noticed that none of the example codes had anything related to SQL
 else...). If we add some jdbc-connection-related helper methods (not
 listed), we can actually perform these queries against a database:
 
-::
+.. code:: scala
 
     val Seq(a,b,c) = transaction("jdbc:h2:mem:test") { implicit c =>
       import engine.sql._

@@ -1,6 +1,8 @@
 Making Jackson tolerable
 ========================
 
+:Authors: Jyri-Matti Lähteenmäki
+
 I believe that the "right way" to do serialization/deserialization is a
 "type class based" approach. Unfortunately the community hasn't given us
 one in the Java-land. The good thing with
@@ -28,7 +30,7 @@ In your ``com.fasterxml.jackson.databind.ObjectMapper`` define a new
 ``com.fasterxml.jackson.databind.ser.BeanSerializerFactory`` with an
 overridden method:
 
-::
+.. code:: java
 
     @Override
     public JsonSerializer<Object> createSerializer(SerializerProvider prov, JavaType origType) throws JsonMappingException {
@@ -46,14 +48,14 @@ This will fail with an exception every time Jackson tries to use
 Similar hack can be used for deserialization. You can register it with
 something like this:
 
-::
+.. code:: java
 
     setSerializerFactory(new CustomBeanSerializerFactory(BeanSerializerFactory.instance.getFactoryConfig()));
 
 You should probably also override this on your ObjectMapper to fail
 early:
 
-::
+.. code:: java
 
     @Override
     public boolean canSerialize(Class<?> type) {
@@ -78,7 +80,7 @@ should be required by default. A toString behaviour could be an opt-in.
 You can make Jackson fail when no suitable keyserializer is found by
 overriding the following method from you ``BeanSerializerFactory``:
 
-::
+.. code:: java
 
     @Override
     public JsonSerializer<Object> createKeySerializer(final SerializationConfig config, JavaType type) {
@@ -118,7 +120,7 @@ Make a custom
 ``com.fasterxml.jackson.databind.deser.Deserializers.Base`` and override
 the following method:
 
-::
+.. code:: java
 
     @Override
     public JsonDeserializer<?> findBeanDeserializer(final JavaType type, DeserializationConfig config, BeanDescription beanDesc) throws JsonMappingException {
@@ -144,7 +146,7 @@ the following method:
 
 Register it in your ``Module``:
 
-::
+.. code:: java
 
     context.addDeserializers(new MyCustomDeserializersBase());
 
@@ -162,7 +164,7 @@ Serializing anything other than "public data" should be explicit.
 This is how you can make Jackson ignore methods and only serialize
 public fields. In your ``ObjectMapper``:
 
-::
+.. code:: java
 
     configure(MapperFeature.AUTO_DETECT_GETTERS, false);
     configure(MapperFeature.AUTO_DETECT_IS_GETTERS, false);
@@ -181,7 +183,7 @@ only accept explicit (or at least sensible) deserialization for enums.
 
 This is how you can fix these issues. In your ``ObjectMapper``:
 
-::
+.. code:: java
 
     configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, true);
     configure(DeserializationFeature.FAIL_ON_NUMBERS_FOR_ENUMS, true);
@@ -197,7 +199,7 @@ Jackson doesn't even seem to have a configuration option to disable
 default serializers, but this is how you can do it. In your custom
 ``BeanSerializerFactory`` override the following method:
 
-::
+.. code:: java
 
     @Override
     public JsonSerializer<Object> createSerializer(SerializerProvider prov, JavaType origType) throws JsonMappingException {
@@ -223,7 +225,7 @@ Same thing as with serializers. Create a custom
 ``com.fasterxml.jackson.databind.deser.BeanDeserializerFactory`` and
 override the following method:
 
-::
+.. code:: java
 
     @Override
     public JsonDeserializer<Object> createBeanDeserializer(DeserializationContext ctxt, JavaType type, BeanDescription beanDesc) throws JsonMappingException {
@@ -242,7 +244,7 @@ override the following method:
 
 For enums we have to override another method:
 
-::
+.. code:: java
 
     @Override
     public JsonDeserializer<?> createEnumDeserializer(DeserializationContext ctxt, JavaType type, BeanDescription beanDesc) throws JsonMappingException {
@@ -268,7 +270,7 @@ Since I don't want to use nulls anywhere (except serialize/deserialize a
 missing Optional to/from json-null) I can set a Jackson feature to
 exclude nulls from serialization. In your ``ObjectMapper``:
 
-::
+.. code:: java
 
     setSerializationInclusion(Include.NON_NULL);
 

@@ -1,6 +1,9 @@
 Java Persistence API 2. Still useless?
 ======================================
 
+:Authors: Jyri-Matti Lähteenmäki
+:Date: 2012-08-10
+
 In my day job I have the "privilege" to use JPA
 (`Hibernate <http://www.hibernate.org/>`__ in practice) for persistence.
 So when JPA2 was released I was eager to find out if they had actually
@@ -46,7 +49,7 @@ either paging or trivial sorting or both...
 Assume we have an arbitrarily complex query returning rows of
 Department. Then we can use that same query for different use cases:
 
-::
+.. code:: java
 
     Page page = Page.FIRST;
     CriteriaQuery<Department> q = ...;
@@ -85,7 +88,7 @@ projections and sorting can only be made to existing attributes.
 Here are the methods for executing the previous queries. Please correct
 me if the signatures are sub-optimal:
 
-::
+.. code:: java
 
     <T> T get(CriteriaQuery<T> query) throws NoResultException, NonUniqueResultException;
 
@@ -105,7 +108,7 @@ me if the signatures are sub-optimal:
 
 And here's one more and an example of querying a projection:
 
-::
+.. code:: java
 
     <E extends EntityBase<?>,R> Collection<R> 
     getList(CriteriaQuery<E> query, ConstructorMeta_<E,R> constructor);
