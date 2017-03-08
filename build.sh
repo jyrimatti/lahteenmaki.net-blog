@@ -7,6 +7,7 @@ test $(find tags -type l -exec sh -c "file -b {} | grep -q ^broken" \; -print | 
 
 for f in *.rst
 do
+  filename=$(basename $f .rst).html
   keywords=$(find tags/*/* | grep "$f" | sed 's/[^/]*\/\([^/]*\)\/.*/-M keywords:\1/' | paste -sd " " -)
-  pandoc $f --css styles.css --section-divs --template base.template $keywords --to html5 --output $(basename $f .rst).html
+  pandoc $f --css 'https://lahteenmaki.net/style.css' --css styles.css --section-divs --template base.template $keywords -M filename:"$filename" --to html5 --output "$filename"
 done

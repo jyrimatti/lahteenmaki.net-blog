@@ -37,57 +37,67 @@ $for(header-includes)$
 $endfor$
 </head>
 <body>
-<h1 class="blog">Architecturally Elegant</h1>
-<div class="postarea">
-$for(include-before)$
-$include-before$
-$endfor$
-$if(title)$
-<header>
-<h1 class="title">$title$</h1>
-$if(subtitle)$
-<p class="subtitle">$subtitle$</p>
-$endif$
-$for(author)$
-<p class="author">$author$</p>
-$endfor$
-$if(date)$
-<p class="date">$date$</p>
-$endif$
-$if(keywords)$
-<p class="tags">Tags: 
-$for(keywords)$
-<a href="tags/$keywords$/">$keywords$</a>
-$endfor$
-</p>
-$endif$
-</header>
-$endif$
-$if(toc)$
-<nav id="$idprefix$TOC">
-$toc$
-</nav>
-$endif$
+<div class="container">
+  <div class="header">
+    <h1 class="blog">Architecturally Elegant <a href="https://lahteenmaki.net">- lahteenmaki.net</a></h1>
+  </div>
+  <div class="section">
+    $for(include-before)$
+      $include-before$
+    $endfor$
+
+    $if(title)$
+    <header>
+      <h1 class="title">$title$</h1>
+      $if(subtitle)$
+        <p class="subtitle">$subtitle$</p>
+      $endif$
+      $for(author)$
+        <p class="author">$author$</p>
+      $endfor$
+      $if(date)$
+        <p class="date">$date$</p>
+      $endif$
+      $if(keywords)$
+      <p class="tags">Tags: 
+        $for(keywords)$
+          <a href="tags/$keywords$/">$keywords$</a>
+        $endfor$
+      </p>
+      $endif$
+    </header>
+    $endif$
+
+    $if(toc)$
+      <nav id="$idprefix$TOC">
+      $toc$
+      </nav>
+    $endif$
+
 $body$
-$for(include-after)$
-$include-after$
-$endfor$
+    
+    $for(include-after)$
+      $include-after$
+    $endfor$
+  </div>
+
+  <div class="section" id="disqus_thread"></div>
+
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://blog.lahteenmaki.net/$filename$';
+      this.page.identifier = 'https://blog.lahteenmaki.net/$filename$';
+    };
+
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://lahteenmaki.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>                                
+
 </div>
-<div id="disqus_thread"></div>
-<script>
-var disqus_config = function () {
-this.page.url = 'https://blog.lahteenmaki.net';
-this.page.identifier = '$pagetitle$';
-};
-
-(function() { // DON'T EDIT BELOW THIS LINE
-var d = document, s = d.createElement('script');
-s.src = 'https://lahteenmaki.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>                                
-
 </body>
 </html>

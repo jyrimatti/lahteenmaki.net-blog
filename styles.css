@@ -1,88 +1,59 @@
-html {
-	background: url('background.jpg') no-repeat fixed;
-    background-color: black;
-}
-
-body {
-	margin: 2em auto;
+.section {
 	width: 80%;
 	max-width: 50em;
 	padding: 2em;
-	background-color: white;
-	opacity: 0.85;
-}
-
-a, a:visited {
-	text-decoration: none;
-	color: deepskyblue;
-}
-a:hover {
-	color: blue;
-}
-
-h1 {
-	margin-top: 1.5em;
-}
-
-h1.blog {
-	font-size: 4em;
-	font-weight: lighter;
-	text-align: center;
-	margin-top: 0;
-}
-
-header {
-	margin-bottom: 2em;
-}
-
-section h1 {
-	font-size: 1.25em;
-    font-weight: normal;	
-}
-
-.title {
-	font-family: serif;
-	font-weight: lighter;
-	margin: 1em 0 0 0;
-}
-
-.postarea {
+	transform: none !important;
+	-webkit-transform: none !important;
+	-ms-transform: none !important;
+	-moz-transform: none !important;
+	-o-transform: none !important;
 	position: relative;
-	padding-bottom: 3em;
-	margin-bottom: 3em;
+}
+
+.section, .section h1 {
 	font-family: sans-serif;
     font-weight: lighter;
 }
+
 .author {
 	position: absolute;
 	bottom: 0;
-	right: 0;
+	right: 1em;
 	font-style: italic;
     font-size: 0.85em;
 }
 .tags {
 	position: absolute;
-	bottom: 0;
+	top: 0;
+	right: 1em;
 	font-style: italic;
     font-size: 0.85em;
 }
 .tags a {
 	font-style: normal;
-	padding-right: 0.5em;
+	padding-left: 0.5em;
 	font-weight: bold;
 }
 .date {
 	font-style: italic;
     font-size: 0.85em;
     padding-left: 1em;
+    position: absolute;
+    top: 0;
+    left: 1em;
 }
 
+div.sourceCode {
+	width: 100%;
+    padding-right: 0;
+}
 pre.sourceCode {
-	border: 1px solid #dddddd;
-    padding: 1em;
-    background-color: white;
-    border-radius: 0.5em;
     margin: 0;
     overflow-x: scroll;
     font-size: 0.9em;
+}
+
+h1 a {
+	padding-left: 1em;
+	opacity: 0.3;
 }
