@@ -13,7 +13,7 @@ $endif$
 $if(keywords)$
   <meta name="keywords" content="$for(keywords)$$keywords$$sep$, $endfor$">
 $endif$
-  <title>$if(title-prefix)$$title-prefix$ – $endif$$pagetitle$ - Architecturally Elegant</title>
+  <title>$if(title-prefix)$$title-prefix$ – $endif$$pagetitle$$if(title-suffix)$ - $title-suffix$$endif$ - lahteenmaki.net</title>
   <style type="text/css">code{white-space: pre;}</style>
 $if(quotes)$
   <style type="text/css">q { quotes: "“" "”" "‘" "’"; }</style>
@@ -39,7 +39,7 @@ $endfor$
 <body>
 <div class="container">
   <div class="header">
-    <h1 class="blog">Architecturally Elegant <a href="https://lahteenmaki.net">- lahteenmaki.net</a></h1>
+    <h1 class="blog">$title-suffix$ <a href="https://lahteenmaki.net">- lahteenmaki.net</a></h1>
   </div>
   <div class="section">
     $for(include-before)$
