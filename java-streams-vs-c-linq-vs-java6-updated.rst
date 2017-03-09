@@ -3,6 +3,7 @@ Java Streams vs C# LINQ vs Java6 - updated examples
 
 :Authors: Jyri-Matti Lähteenmäki
 :Date: 2014-05-17
+:Status: Published
 
 Java 8 is published. This post is a rewrite of my `previous
 one <./java-streams-vs-csharp-linq-vs-java6-updated-example.html>`__

@@ -3,6 +3,7 @@ Simple construction of common queries with JPA2
 
 :Authors: Jyri-Matti Lähteenmäki
 :Date: 2012-08-21
+:Status: Published
 
 In the `previous post <jpa2-still-useless.html>`__ I demonstrated an API
 for executing queries. Now we need some queries. Due to some odd design

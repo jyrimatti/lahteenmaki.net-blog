@@ -3,6 +3,7 @@ Haskell and non-blocking asynchronous IO
 
 :Authors: Jyri-Matti Lähteenmäki
 :Date: 2013-01-05
+:Status: Published
 
 Here begins my journey to the magnificent world of Haskell.
 

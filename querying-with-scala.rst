@@ -3,6 +3,7 @@ Querying with Scala
 
 :Authors: Jyri-Matti Lähteenmäki
 :Date: 2011-02-14
+:Status: Published
 
 Let's say we have a simple domain model with departments and employees
 (behold my imagination...). Forget all persistence or SQL related stuff,

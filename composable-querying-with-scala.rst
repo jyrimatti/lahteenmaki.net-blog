@@ -3,6 +3,7 @@ Composable querying with Scala
 
 :Authors: Jyri-Matti Lähteenmäki
 :Date: 2011-06-28
+:Status: Published
 
 It's been a while since my last post, but finally I was able to find
 enough time to re-implement the whole querying-thing and experiment with

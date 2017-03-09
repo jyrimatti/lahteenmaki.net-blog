@@ -3,6 +3,7 @@ About Subtext
 
 :Authors: Jyri-Matti Lähteenmäki
 :Date: 2016-01-04
+:Status: Published
 
 I watch a video, which I highly recommend to everyone:
 

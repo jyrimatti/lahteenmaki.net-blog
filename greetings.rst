@@ -4,6 +4,7 @@ Greetings
 
 :Authors: Jyri-Matti Lähteenmäki
 :Date: 2011-02-05
+:Status: Published
 
 I felt like I needed a place to write some thoughts and views of
 programming. So, I decided to create a blog. I was going to write a

@@ -3,6 +3,7 @@ Java Persistence API 2. Still useless?
 
 :Authors: Jyri-Matti Lähteenmäki
 :Date: 2012-08-10
+:Status: Published
 
 In my day job I have the "privilege" to use JPA
 (`Hibernate <http://www.hibernate.org/>`__ in practice) for persistence.

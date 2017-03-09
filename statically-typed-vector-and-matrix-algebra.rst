@@ -3,6 +3,7 @@ Statically typed Vector and Matrix algebra
 
 :Authors: Jyri-Matti Lähteenmäki
 :Date: 2012-01-12
+:Status: Published
 
 I took a `course on Machine Learning <http://www.ml-class.org/>`__ a
 while back, just for fun. `Stanford University <http://stanford.edu/>`__

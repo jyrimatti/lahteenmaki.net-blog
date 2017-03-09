@@ -7,7 +7,18 @@ test $(find tags -type l -exec sh -c "file -b {} | grep -q ^broken" \; -print | 
 
 for f in *.rst
 do
+  draftprefix=$(echo $(grep -w $f -e '^:Status: Published$' || echo '.') | sed s/':Status: Published'//)
   filename=$(basename $f .rst).html
-  keywords=$(find tags/*/* | grep "$f" | sed 's/[^/]*\/\([^/]*\)\/.*/-M keywords:\1/' | paste -sd " " -)
-  pandoc $f --css 'https://lahteenmaki.net/style.css' --css styles.css --section-divs --template base.template $keywords -M filename:"$filename" --to html5 --output "$filename"
+  keywords=$(find tags/*/* | grep "$f" | sed 's/[^/]*\/\([^/]*\)\/.*/--metadata keywords:\1/' | paste -sd " " -)
+
+  pandoc $f \
+  	--template base.template \
+    --css 'https://lahteenmaki.net/style.css' \
+    --css styles.css \
+    --section-divs \
+    $keywords \
+    --metadata filename:"$filename" \
+    --metadata 'title-suffix':'Architecturally Elegant' \
+    --to html5 \
+    --output "$draftprefix$filename"
 done

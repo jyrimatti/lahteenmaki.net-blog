@@ -2,6 +2,7 @@ Making Jackson tolerable
 ========================
 
 :Authors: Jyri-Matti Lähteenmäki
+:Status: Draft
 
 I believe that the "right way" to do serialization/deserialization is a
 "type class based" approach. Unfortunately the community hasn't given us

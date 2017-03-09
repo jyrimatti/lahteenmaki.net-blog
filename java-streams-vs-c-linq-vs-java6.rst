@@ -3,6 +3,7 @@ Java Streams vs C# LINQ vs Java6
 
 :Authors: Jyri-Matti Lähteenmäki
 :Date: 2013-04-10
+:Status: Published
 
 A while back I ran into an article comparing C# LINQ to the upcoming
 Java8 Streams API:
