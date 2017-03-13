@@ -13,7 +13,7 @@ $endif$
 $if(keywords)$
   <meta name="keywords" content="$for(keywords)$$keywords$$sep$, $endfor$">
 $endif$
-  <title>$if(title-prefix)$$title-prefix$ – $endif$$pagetitle$$if(title-suffix)$ - $title-suffix$$endif$ - lahteenmaki.net</title>
+  <title>$if(title-prefix)$$title-prefix$ – $endif$$if(pagetitle)$$pagetitle$ - $endif$$if(title-suffix)$$title-suffix$ - $endif$lahteenmaki.net</title>
   <style type="text/css">code{white-space: pre;}</style>
 $if(quotes)$
   <style type="text/css">q { quotes: "“" "”" "‘" "’"; }</style>
@@ -83,22 +83,24 @@ $body$
     <div class="addthis_inline_share_toolbox"></div>
   </div>
 
-  <div class="section" id="disqus_thread"></div>
+  $if(comments)$
+    <div class="section" id="disqus_thread"></div>
 
-  <script>
-    var disqus_config = function () {
-      this.page.url = 'https://blog.lahteenmaki.net/$filename$';
-      this.page.identifier = 'https://blog.lahteenmaki.net/$filename$';
-    };
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://blog.lahteenmaki.net/$filename$';
+        this.page.identifier = 'https://blog.lahteenmaki.net/$filename$';
+      };
 
-    (function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = 'https://lahteenmaki.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-    })();
-  </script>
-  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>                                
+      (function() {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://lahteenmaki.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>                   
+  $endif$
 
 </div>
 

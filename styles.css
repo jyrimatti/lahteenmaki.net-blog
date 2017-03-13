@@ -34,13 +34,22 @@
 	padding-left: 0.5em;
 	font-weight: bold;
 }
-.date {
+p.date {
 	font-style: italic;
     font-size: 0.85em;
     padding-left: 1em;
     position: absolute;
     top: 0;
     left: 1em;
+}
+span.date {
+	font-size: 0.75em;
+    font-weight: lighter;
+    color: lightblue;
+    padding: 0 1em;
+    padding-top: 0.2em;
+    font-style: italic;
+    float: left;
 }
 
 div.sourceCode {
@@ -56,4 +65,14 @@ pre.sourceCode {
 h1 a {
 	padding-left: 1em;
 	opacity: 0.3;
+}
+
+.posts {
+	font-family: serif;
+}
+
+ul.tags {
+	float: right;
+    position: relative;
+    list-style-type: none;
 }

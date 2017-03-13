@@ -1,0 +1,17 @@
+<ul class="tags">
+$for(keywords)$
+	<li><a href="tags/$keywords$/">$keywords$</a></li>
+$endfor$
+</ul>
+
+<ol class="posts">
+$for(post)$
+	<li>
+		<div>
+			<a href="$post.filename$">$post.title$</a>
+			<span class="date">$post.date$</span>
+		</div>
+		<div>$post.description$</div>
+	</li>
+$endfor$
+</ol>
