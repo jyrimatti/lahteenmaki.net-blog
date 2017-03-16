@@ -1,3 +1,7 @@
+html {
+	overflow-x: hidden;
+}
+
 .section {
 	width: 80%;
 	max-width: 50em;
@@ -62,17 +66,23 @@ pre.sourceCode {
     font-size: 0.9em;
 }
 
+.header {
+	font-size: 0.75em;
+}
 h1 a {
 	padding-left: 1em;
 	opacity: 0.3;
+	white-space: nowrap;
 }
 
 .posts {
 	font-family: serif;
+	float: left;
 }
 
 ul.tags {
 	float: right;
     position: relative;
     list-style-type: none;
+    text-align: right;
 }
