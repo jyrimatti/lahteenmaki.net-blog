@@ -1,0 +1,1 @@
+../../java-persistence-api-2-still-useless.rst

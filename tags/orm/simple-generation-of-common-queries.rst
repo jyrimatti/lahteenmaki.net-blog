@@ -1,0 +1,1 @@
+../../simple-generation-of-common-queries.rst

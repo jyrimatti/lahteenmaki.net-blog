@@ -49,7 +49,6 @@ p.date {
 span.date {
 	font-size: 0.75em;
     font-weight: lighter;
-    color: lightblue;
     padding: 0 1em;
     padding-top: 0.2em;
     font-style: italic;
@@ -69,7 +68,7 @@ pre.sourceCode {
 .header {
 	font-size: 0.75em;
 }
-h1 a {
+h1 > a {
 	padding-left: 1em;
 	opacity: 0.3;
 	white-space: nowrap;
