@@ -37,7 +37,7 @@ for f in *.rst
 do
   draftprefix=$(echo $(grep -w $f -e '^:Status: Published$' || echo '.') | sed s/':Status: Published'//)
   filename=$(basename $f .rst).html
-  keywords=$(find tags/*/* | grep "$filename" | sed 's/[^/]*\/\([^/]*\)\/.*/--metadata keywords:\1/' | paste -sd " " -)
+  keywords=$(find tags/*/* | grep "$f" | sed 's/[^/]*\/\([^/]*\)\/.*/--metadata keywords:\1/' | paste -sd " " -)
   comments=$(test $f == 'index.rst' || echo --metadata comments:true)
   include=$(test $f != 'index.rst' || echo --include-after-body rss.html)
 
