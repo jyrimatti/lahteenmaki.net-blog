@@ -1,0 +1,5 @@
+<ul class="tags">
+$for(keywords)$
+	<li><a href="tags/$keywords$/">$keywords$</a></li>
+$endfor$
+</ul>

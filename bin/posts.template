@@ -1,5 +1,4 @@
-
-<ol class="posts">
+<ul class="posts">
 $for(post)$
 	<li>
 		<div>
@@ -8,11 +7,5 @@ $for(post)$
 		</div>
 		<div>$post.description$</div>
 	</li>
-$endfor$
-</ol>
-
-<ul class="tags">
-$for(keywords)$
-	<li><a href="tags/$keywords$/">$keywords$</a></li>
 $endfor$
 </ul>

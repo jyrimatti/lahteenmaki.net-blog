@@ -85,3 +85,7 @@ ul.tags {
     list-style-type: none;
     text-align: right;
 }
+
+li {
+	list-style-type: none;
+}
