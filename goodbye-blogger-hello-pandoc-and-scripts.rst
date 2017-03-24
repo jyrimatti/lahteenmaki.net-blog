@@ -1,5 +1,5 @@
-Goodbye Blogger, hello Pandoc and scripts.
-==========================================
+Goodbye Blogger, hello Pandoc and scripts
+=========================================
 
 :Authors: Jyri-Matti Lähteenmäki
 :Date: 2017-03-25
