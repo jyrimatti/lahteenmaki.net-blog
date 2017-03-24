@@ -26,6 +26,14 @@ html {
 	font-style: italic;
     font-size: 0.85em;
 }
+.rss {
+	position: absolute;
+    bottom: 0.5em;
+    left: 0.5em;
+    width: 2em;
+    height: 2em;
+    opacity: 0.75;
+}
 .tags {
 	position: absolute;
 	top: 0;
