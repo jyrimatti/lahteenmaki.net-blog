@@ -7,7 +7,9 @@ DIR="$(dirname "${BASH_SOURCE[0]}")"
 blogname=$1
 extracss=$2
 postshtml=$3
-tagshtml=$4
+tagshtml=$(mktemp)
+
+echo "$4" > "$tagshtml"
 
 for f in *.rst
 do
@@ -15,15 +17,18 @@ do
   filename=$(basename $f .rst).html
   keywords=$(find tags/*/* | grep "$f" | sed 's/[^/]*\/\([^/]*\)\/.*/--metadata keywords:\1/' | paste -sd " " -)
   comments=$(test $f == 'index.rst' || echo --metadata comments:true)
-  include=$(test $f != 'index.rst' || echo --include-after-body $postshtml --include-after-body $tagshtml)
+  include=$(test $f != 'index.rst' || echo --include-after-body "$postshtml" --include-after-body "$tagshtml")
+
+  # remove draft output in case the Status just changed to Published
+  rm -f ".$filename"
 
   pandoc $f \
   	--template "$DIR/base.template" \
     --css "$extracss" \
-    --css styles.css \
+    --css "styles.css" \
     --section-divs \
     $keywords \
-    --metadata filename:"$filename" \
+    --metadata 'filename':"$filename" \
     --metadata 'title-suffix':"$blogname" \
     $comments \
     $include \

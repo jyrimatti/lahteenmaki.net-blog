@@ -7,37 +7,40 @@ DIR="$(dirname "${BASH_SOURCE[0]}")"
 blogname=$1
 extracss=$2
 
+metadata=$(mktemp)
+
 for tag in $(ls tags/)
 do
-  echo ---                           > .temp.yaml
-  echo post:                        >> .temp.yaml
+  echo ---                             > "$metadata"
+  echo post:                          >> "$metadata"
   for f in tags/$tag/*
   do
     filename=../../$(basename $f .rst).html
     abstract=$(grep -w $f -e '^:Abstract:' | sed 's/^:Abstract:\s*//')
     date=$(grep -w $f -e '^:Date:' | sed 's/^:Date:\s*//')
-    echo "- title: $(head -1 $f)"   >> .temp.yaml
-    echo "  filename: $filename"    >> .temp.yaml
-    echo "  description: $abstract" >> .temp.yaml
-    echo "  date: $date" >> .temp.yaml
+    echo "- title: $(head -1 $f)"     >> "$metadata"
+    echo "  filename: $filename"      >> "$metadata"
+    echo "  description: $abstract"   >> "$metadata"
+    echo "  date: $date"              >> "$metadata"
   done
-  echo ... >> .temp.yaml
+  echo ...                            >> "$metadata"
 
-  pandoc "$DIR/empty.md" .temp.yaml \
-    --template "$DIR/posts.template" \
+  # empty content since all data is in the metadata
+  posts=$(mktemp)
+  pandoc "$DIR/empty.md" "$metadata" \
+    --template "$DIR/fragment.template" \
     --to html5 \
-    --output ".temp.html"
+    --output "$posts"
 
+  # empty content since all the content is generated in the previous step
   pandoc "$DIR/empty.md" \
     --template "$DIR/base.template" \
     --css "$extracss" \
-    --css ../../styles.css \
+    --css "../../styles.css" \
     --section-divs \
     --metadata 'title-suffix':"$blogname" \
     --metadata 'title':"Tag: $tag" \
     --to html5 \
-    --include-after-body .temp.html \
+    --include-after-body "$posts" \
     --output "tags/$tag/index.html"
 done
-rm .temp.yaml
-rm .temp.html

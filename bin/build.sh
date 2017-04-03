@@ -4,33 +4,46 @@ set -eu
 
 DIR="$(dirname "${BASH_SOURCE[0]}")"
 
-blogname='Architecturally Elegant'
+blogsite="lahteenmaki.net"
+blogurl="https://blog.$blogsite"
+blogname="Architecturally Elegant"
 
-metadata=.temp.yaml
+# site-relative path to feed
+rsspath="rss.xml"
 
-$DIR/create_post_metadata.sh 'lahteenmaki.net' 'https://blog.lahteenmaki.net' "$blogname" $metadata
+# site-relative path to an HTML-fragment listing the posts
+fragmentpath="rss.html"
 
-$DIR/create_rss_xml.sh $metadata 'rss.xml'
+metadata=$(mktemp)
 
-postshtml=rss.html
-tagshtml=.temp.html
+echo Create blog content metadata file to be used in subsequent steps
+$DIR/create_post_metadata.sh "$blogsite" "$blogurl" "$blogname" "$metadata"
 
-pandoc "$DIR/empty.md" $metadata \
-    --template "$DIR/posts.template" \
+echo Create feed file
+$DIR/create_rss_xml.sh "$metadata" "$rsspath"
+
+echo Create a HTML fragment to
+echo ' 1) list posts on the blog frontpage'
+echo ' 2) list posts as HTML in an external site'
+# Empty content since all data is within metadata
+pandoc "$DIR/empty.md" "$metadata" \
+    --template "$DIR/fragment.template" \
     --to html5 \
-    --output $postshtml
+    --output "$fragmentpath"
 
 alltags=$(ls tags/ | sort | sed 's/\(.*\)/--metadata keywords:\1/' | paste -sd ' ' -)
-pandoc "$DIR/empty.md" $metadata \
+tagslist=$(pandoc "$DIR/empty.md" "$metadata" \
     --template "$DIR/tags.template" \
     --to html5 \
-    $alltags \
-    --output $tagshtml
+    $alltags)
 
-rm $metadata
+echo Create the individual post pages
+$DIR/create_posts.sh "$blogname" "https://$blogsite/style.css" "$fragmentpath" "$tagslist"
 
-$DIR/create_posts.sh "$blogname" 'https://lahteenmaki.net/style.css' $postshtml $tagshtml
+echo Create a page for each tag, listing all posts having that tag
+$DIR/create_tag_pages.sh "$blogname" "https://$blogsite/style.css"
 
-$DIR/create_tag_pages.sh "$blogname" 'https://lahteenmaki.net/style.css'
-
+echo Check tag symlinks are valid
 $DIR/check_tags_valid.sh
+
+echo Done!

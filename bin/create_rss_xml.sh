@@ -7,6 +7,7 @@ DIR="$(dirname "${BASH_SOURCE[0]}")"
 metadata=$1
 output=$2
 
-pandoc "$DIR/empty.md" $metadata \
+# empty content since all data is in the metadata
+pandoc "$DIR/empty.md" "$metadata" \
     --template "$DIR/rss.template" \
-    --output $output
+    --output "$output"

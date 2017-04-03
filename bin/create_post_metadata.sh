@@ -12,17 +12,24 @@ echo blogsite: "$blogsite"                   >> $output
 echo blogurl: "$blogurl"                     >> $output
 echo blogname: "$blogname"                   >> $output
 echo post:                                   >> $output
-for f in $(grep ':Date:' *.rst | sed s/::Date:// | sort --reverse --key 2 | cut -d' ' -f1 | paste -sd ' ')
+for f in $(grep '^:Date:' $(grep -l '^:Status: Published$' *.rst) | sed s/::Date:// | sort --reverse --key 2 | cut -d' ' -f1 | paste -sd ' ')
 do
   if [[ "$f" != 'index.rst' ]]
   then
     filename=$(basename $f .rst).html
     abstract=$(grep -w $f -e '^:Abstract:' | sed 's/^:Abstract:\s*//')
     date=$(grep -w $f -e '^:Date:' | sed 's/^:Date:\s*//')
+
+    # post content without the HTML template
+    content=$(pandoc $f \
+        --to html5)
+    
     echo "- title: $(head -1 $f)"            >> $output
     echo "  filename: $filename"             >> $output
     echo "  description: $abstract"          >> $output
     echo "  date: $date"                     >> $output
+    echo "  content: |"                      >> $output
+    echo "$content" | sed -e 's/^/   /g'     >> $output
   fi
 done
 echo ...                                     >> $output
