@@ -19,6 +19,7 @@ do
     filename=$(basename $f .rst).html
     abstract=$(grep -w $f -e '^:Abstract:' | sed 's/^:Abstract:\s*//')
     date=$(grep -w $f -e '^:Date:' | sed 's/^:Date:\s*//')
+    rfcdate=$(date --rfc-822 --date="$date")
 
     # post content without the HTML template
     content=$(pandoc $f \
@@ -28,6 +29,7 @@ do
     echo "  filename: $filename"             >> $output
     echo "  description: $abstract"          >> $output
     echo "  date: $date"                     >> $output
+    echo "  rfcdate: $rfcdate"               >> $output
     echo "  content: |"                      >> $output
     echo "$content" | sed -e 's/^/   /g'     >> $output
   fi

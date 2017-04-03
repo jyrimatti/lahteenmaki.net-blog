@@ -10,7 +10,7 @@ $for(post)$
 			<title>$post.title$</title>
 			<link>$blogurl$/$post.filename$</link>
 			<guid>$blogurl$/$post.filename$</guid>
-			<pubDate>$post.date$</pubDate>
+			<pubDate>$post.rfcdate$</pubDate>
 			<description>$post.description$</description>
 			<content:encoded><![CDATA[$post.content$]]></content:encoded>
 		</item>
