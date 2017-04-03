@@ -5,7 +5,7 @@ $for(post)$
 			<span class="date">$post.date$</span>
 			<a href="$post.filename$">$post.title$</a>
 		</div>
-		<div>$post.description$</div>
+		<blockquote>$post.description$</blockquote>
 	</li>
 $endfor$
 </ul>
