@@ -234,7 +234,7 @@ The big point is, that in order to do parsing, you don’t actually need to lear
 One more thing
 --------------
 
-Recently I ran into a `related blog post <http://vaibhavsagar.com/blog/2018/02/04/revisiting-monadic-parsing-haskell/>`__, which defined a way to reduce code by deriving the ``Applicative``instances:
+Recently I ran into a `related blog post <http://vaibhavsagar.com/blog/2018/02/04/revisiting-monadic-parsing-haskell/>`__, which defined a way to reduce code by deriving the ``Applicative`` instances:
 
 .. code:: haskell
 
