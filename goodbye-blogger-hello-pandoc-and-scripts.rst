@@ -1,6 +1,7 @@
 Goodbye Blogger, hello Pandoc and scripts
 =========================================
 
+:Abstract: How I moved my blog from Blogger to a more developer-friendly platform.
 :Authors: Jyri-Matti Lähteenmäki
 :Date: 2017-03-25
 :Status: Published

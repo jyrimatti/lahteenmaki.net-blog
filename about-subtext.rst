@@ -1,6 +1,7 @@
 About Subtext
 =============
 
+:Abstract: Some thoughts related to Subtext.
 :Authors: Jyri-Matti Lähteenmäki
 :Date: 2016-01-04
 :Status: Published
