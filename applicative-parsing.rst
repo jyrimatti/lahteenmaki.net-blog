@@ -179,7 +179,7 @@ Now we can implement the main parsing function and derive a ``Show`` instance to
 
 .. code:: haskell
 
-    deriving instance Show Parser
+    deriving instance Show Term
 
     parseProgram s = case parse term s of
          [(t,"")] -> Just t
