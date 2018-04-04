@@ -150,7 +150,7 @@ This is how you can make Jackson ignore methods and only serialize public fields
   configure(MapperFeature.AUTO_DETECT_SETTERS, false);
 
 5) Has weird default deserialization behavior
--------------------------------------------
+---------------------------------------------
 
 By default Jackson is fine with missing values for primitive fields. This is odd, since a primitive (versus an object) clearly indicates a required value. Jackson also accepts numbers for Enum values, which is just nasty.
 
@@ -242,6 +242,7 @@ Since I don't want to use nulls anywhere, I can set a Jackson feature to exclude
 This way I can omit fields by setting them to null. Took me a while to discover this feature. Sensible default behavior would probably be to raise an error if a null is encountered in serialization, and add a hint of this feature to the error message.
 
 9) Deserialization doesn't fail with missing data
+-------------------------------------------------
 
 We already saw how Jackson can be made to fail on missing primitive values, but since optionality should be described with an Option type, Jackson should also fail on missing object values.
 
