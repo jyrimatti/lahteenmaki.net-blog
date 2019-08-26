@@ -13,7 +13,7 @@ for tag in $(ls tags/)
 do
   echo ---                             > "$metadata"
   echo post:                          >> "$metadata"
-  for f in tags/$tag/*
+  for f in tags/$tag/*.rst
   do
     filename=../../$(basename $f .rst).html
     abstract=$(grep -w $f -e '^:Abstract:' | sed 's/^:Abstract:\s*//')
