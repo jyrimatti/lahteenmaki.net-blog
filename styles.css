@@ -107,3 +107,18 @@ blockquote {
     margin-top: 0.5em;
     margin-bottom: 0.5em;
 }
+
+table {
+	font-size: 0.6em;
+}
+td {
+	border-top: 1px dotted LightGray;
+	border-left: 1px dotted LightGray;
+	padding: 0.2em;
+}
+td:first-child {
+	border-left: none;
+}
+tr:first-child td {
+	border-top: none;
+}
