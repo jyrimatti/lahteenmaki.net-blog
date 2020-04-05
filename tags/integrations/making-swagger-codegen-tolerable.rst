@@ -1,0 +1,1 @@
+../../making-swagger-codegen-tolerable.rst
