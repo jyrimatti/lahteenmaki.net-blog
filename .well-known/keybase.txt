@@ -1,0 +1,56 @@
+==================================================================
+https://keybase.io/jyrimatti
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://blog.lahteenmaki.net
+  * I am jyrimatti (https://keybase.io/jyrimatti) on keybase.
+  * I have a public key ASD3QyyCasB9_He_DB2ib0WsQewTU71QYE23PGrEtq9g9wo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0101ab95792030bb22a11a20b4ee124ae392a4339202aa1fffa196f8c391af565c960a",
+      "host": "keybase.io",
+      "kid": "0120f7432c826ac07dfc77bf0c1da26f45ac41ec1353bd50604db73c6ac4b6af60f70a",
+      "uid": "ca07952904aaa4b7fe4c0e60593d5219",
+      "username": "jyrimatti"
+    },
+    "merkle_root": {
+      "ctime": 1597691429,
+      "hash": "ca9677513b2412f1da4365232f6b069ccf9aaaf33d218ce37d9a1546198ad20258b7d8cbeb43e3ad67ff64760c83e4c127ddc1d0232391db4b7284f55d68dd8b",
+      "hash_meta": "b73f46e46c1907320a477d660202fcff496646ef7c324058af54cb652c8d92d3",
+      "seqno": 17305047
+    },
+    "service": {
+      "entropy": "R3zL02dUHoS7e+2qk2J9NzlZ",
+      "hostname": "blog.lahteenmaki.net",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "5.5.0"
+  },
+  "ctime": 1597691664,
+  "expire_in": 504576000,
+  "prev": "f9da0994a2f787d2626975a5bc8be57ca3ab358d76a8ec2c5c06426e98fd77d3",
+  "seqno": 35,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEg90MsgmrAffx3vwwdom9FrEHsE1O9UGBNtzxqxLavYPcKp3BheWxvYWTESpcCI8Qg+doJlKL3h9JiaXWlvIvlfKOrNY12qOwsXAZCbpj9d9PEIMfMbZcLrnb+WvRAkjpFcXU1tv0Qtara90ZIwHFCBtGoAgHCo3NpZ8RAxMR0Jwxx15nwZhl+jk+WzWhTqwarr0iHoOP0+truRMKgdqqltpwZsnEFEfUuIj7v20nqFmIH5ryS4v36p9+NCqhzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIMPe4EEkylEfNjqm6JHG43KZryiOgFoZRJaQMZ9iT6K/o3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/jyrimatti
+
+==================================================================
