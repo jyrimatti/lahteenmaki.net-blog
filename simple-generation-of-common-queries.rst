@@ -5,7 +5,7 @@ Simple construction of common queries with JPA2
 :Date: 2012-08-21
 :Status: Published
 
-In the `previous post <jpa2-still-useless.html>`__ I demonstrated an API
+In the `previous post <java-persistence-api-2-still-useless.html>`__ I demonstrated an API
 for executing queries. Now we need some queries. Due to some odd design
 choices, JPA2 Criteria API isn't exactly the easiest API for query
 construction. Maybe we could utilize its metamodel to create an easier,

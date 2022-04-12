@@ -30,6 +30,7 @@ do
     $keywords \
     --metadata 'filename':"$filename" \
     --metadata 'title-suffix':"$blogname" \
+    --shift-heading-level-by=1 \
     $comments \
     $include \
     --to html5 \
