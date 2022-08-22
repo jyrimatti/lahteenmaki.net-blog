@@ -1,32 +1,33 @@
 Functional programming in Java
 ==============================
 
-:Abstract: 
+:Abstract: About libraries meta-utils and functional-utils to help in functional programming in Java.
 :Authors: Jyri-Matti Lähteenmäki
-:Status: Draft
+:Date: 2022-08-22
+:Status: Published
 
 Background
 ----------
 
-I work in a software consultancy called `Solita<https://www.solita.fi>`__. There I've been for the past ~8 years implementing software systems related to Finnish railways. Part of what we've been doing is a spatial and temporal data model of railway infrastructure and planning restrictions, with rich restful APIs. These are also available as open data for those who are interested. See `<https://rata.digitraffic.fi/infra-api/>`__ and `<https://rata.digitraffic.fi/jeti-api/>`__. This and `other Digitraffic data<https://rata.digitraffic.fi>`__ can be used to implement applications like `Rafiikka<https://rafiikka.lahteenmaki.net>`__ if you happen to like such a thing.
+I work in a software consultancy called `Solita<https://www.solita.fi>`__. There I've been for the past ~10 years implementing software systems related to Finnish railways. Part of what we've been doing is a spatial and temporal data model of railway infrastructure and planning restrictions, with rich restful APIs. These are also available as open data for those who are interested. See `<https://rata.digitraffic.fi/infra-api/>`__ and `<https://rata.digitraffic.fi/jeti-api/>`__. This and `other Digitraffic data<https://rata.digitraffic.fi>`__ can be used to implement applications like `Rafiikka<https://rafiikka.lahteenmaki.net>`__ if you happen to like such a thing.
 
 End of commercial ;)
 
 The Digitraffic APIs are just the tip of the iceberg. The systems we've been implementing are rather large since they span many important functionalities. Building, maintaining, and further developing this kind of large codebase requires tools like programming languages that prevent us from shooting ourselves to the leg. Unfortunately, being an oldish enterprise project, `Haskell<https://www.haskell.org>`__ is out of the question and the backend codebase is in Java. If we can't use a superior tool like Haskell, we can at least use some of its good parts in Java, like functional programming.
 
-Around 2012 Java was around version 6 (Java 7 was released in July 2011) and 99% of Java programmers hadn't even heard of functional programming let alone lambdas or even first-class functions. Having learned some `Scala<https://www.scala-lang.org>`__ and Haskell, I had learned some of the benefits that functional programming can bring to a codebase, and wanted to promote it even if we had to use Java.
+In 2012 Java was around version 6 (Java 7 was released in July 2011) and 99% of Java programmers hadn't even heard of functional programming let alone lambdas or even first-class functions. Having learned some `Scala<https://www.scala-lang.org>`__ and Haskell, I had discovered some of the benefits that functional programming can bring to a codebase, and wanted to promote it even if we had to use Java.
 
-However, to be able to use functional programming without major pain, the syntax has to be lightweight enough. And we are talking about Java here. Luckily Java 6 already had "compile-time macros" of a kind, namely ``Annotation processors``, which made it possible to generate some of the structures Java was missing back then (and still is in version 14, released in March 2020), like field references or partial application.
+However, to be able to use functional programming without major pain, the syntax has to be lightweight enough. And we are talking about Java here. Luckily Java 6 already had "compile-time macros" of a kind, namely ``Annotation processors``, which made it possible to generate some of the structures Java was missing back then (and still is in version 18, released in March 2022), like field references or partial application.
 
-The annotation processor I made, called `meta-utils<https://github.com/solita/meta-utils>`__, is available in Github. It works with Java 6 and later. This allowed us to practice functional programming like it's done today in modern Java.
+The annotation processor we implemented, called `meta-utils<https://github.com/solita/meta-utils>`__, is available in Github. It works with Java 6 and later. This allowed us to practice functional programming like it's done today in modern Java.
 
 Unfortunately, we couldn't find a suitable functional programming library for Java. One candidate was `LambdaJ<https://code.google.com/archive/p/lambdaj/>`__ by `Mario Fusco<https://twitter.com/mariofusco>`__. While being a revolutionary library at its time, it had some fundamental issues like using reflection and being based on proxying, so we thought it might be too big a risk.
 
-Another candidate was `FunctionalJava<http://www.functionaljava.org>`__ by `Tony Morris<https://twitter.com/dibblego>`__. While it had loads of functional programming paradigms implemented already back then, I was afraid it would be too "mathy" for the rest of the team. Even though I happen to be somewhat interested in mathy and category-theoretic stuff, not that many software developers share those interests.
+Another candidate was `FunctionalJava<http://www.functionaljava.org>`__ by `Tony Morris<https://twitter.com/dibblego>`__. While it had loads of functional programming paradigms implemented already back then, I was afraid it would be too "mathy" for the rest of the team. Even though I happen to be somewhat interested in mathy and category-theoretic stuff, not that many software developers share those interests, at least as deeply.
 
 Yet another candidate was Google Collections (nowadays known as `Guava<https://github.com/google/guava>`__). Being from Google it had a good chance of being maintained and further developed, but it seemed to have some problems. Namely, I felt it wasn't opinionated enough and provided functions helping in using nulls, while I wanted to forbid nulls from our codebase. Google had also decided that they would `never support Tuples<https://github.com/google/guava/wiki/IdeaGraveyard#tuples-for-n--2>`__ which I found extremely useful. This was a warning sign that it might prove difficult or even impossible to try to get contributions in.
 
-One more candidate, which appeared later after our project was already going strong, was `RetroLambda<https://github.com/luontola/retrolambda>`__ by my former colleague `Esko Luontola<https://twitter.com/EskoLuontola>`__. Being able to use lambdas already in our Java 6 codebase would have made some of the structures generated by meta-utils obsolete, or at least not that necessary. However, due to all the essential complexity in our spatial-temporal-relational-railway-modeling, we didn't want to take in any more complexity and were hoping to be able to upgrade to Java 8 soon anyway, so we never used it. We were finally able to upgrade to Java 8 after 5-or-so years around 2018...
+One more candidate, which appeared later after our project was already going strong, was `RetroLambda<https://github.com/luontola/retrolambda>`__ by my former colleague `Esko Luontola<https://twitter.com/EskoLuontola>`__. Being able to use lambdas already in Java 6 codebase would have made some of the structures generated by meta-utils obsolete, or at least not that necessary. However, due to all the essential complexity in our spatial-temporal-relational-railway-modeling, we didn't want to take in any more complexity and were hoping to be able to upgrade to Java 8 soon anyway, so we never used it. We were finally able to upgrade to Java 8 after 5-or-so years around 2018...
 
 I don't remember if we found more candidates back then, but the result was that we decided to write our own CollectionUtils module having the map/filter/Option/etc concepts we found useful, and see where that leads us. During the years I had some interest to try out different things and the module ended up in Github as `functional-utils<https://github.com/solita/functional-utils>`__.
 
@@ -36,7 +37,7 @@ What follows is a small introduction to these libraries. Note that when I talk a
 meta-utils
 ----------
 
-The main point of meta-utils is that Java, as it is, is missing some structures needed to practice functional programming in a light-weight syntax. We programmers, however, already have these structures inside our minds, so generating them during compilation shouldn't bring any mental overhead.
+The main point of meta-utils is that Java, as it is, is missing some structures needed to practice functional programming in a light-weight syntax. We programmers, however, already have these structures inside our minds, so generating them during compilation shouldn't bring much mental overhead.
 
 Think about some Java structures. Java has ``functions``:
 
@@ -89,7 +90,7 @@ What meta-utils generates in the background is pretty much the same thing we alr
         };   
     }
 
-For each class ``Foo`` a class named ``Foo_`` is generated in the same package, containing all the generated structures. Java annotation processors could generate class files directly, but I chose to generate source files so that everyone could open them in the IDE like any class to see what's going on. Visible magic is at least a bit less magical (looking at you, `Lombok<https://projectlombok.org>`__).
+For each class ``Foo`` a class named ``Foo_`` is generated in the same package, containing all the generated structures. Java annotation processors could generate class files directly, but we chose to generate source files so that everyone could open them in the IDE like any class to see what's going on. Visible magic is at least a bit less magical (looking at you, `Lombok<https://projectlombok.org>`__).
 
 Consider another Java construct, a ``field``:
 
@@ -132,7 +133,7 @@ A constructor is a function from its arguments to the class instance:
 
     List<Person> persons = map(Person_.$, Arrays.asList("Mario", "Tony", "Esko"));
 
-Constructors in Java don't have names so I had to generate names for them. Since a dollar sign is kind of a reserved symbol in Java, the meta-constructors are named $, $1, $2, etc.
+Constructors in Java don't have names so we had to generate names for them. Since a dollar sign is kind of a reserved symbol in Java, the meta-constructors are named $, $1, $2, etc.
 
 Java, being an object-oriented language, also has methods. I've learned that most Java developers haven't really thought about how these structures relate to functions, and a method seems to be especially difficult. If you happen to have experience in `Python<https://www.python.org>`__, however, it might be obvious that a method is a function from the instance and the method parameters to the method return value:
 
@@ -263,14 +264,14 @@ All functions, if possible, should be safe such that they are impossible (or at 
 Laziness
 """"""""
 
-Laziness is sometimes awesome. It might be nice to handle infinite collections:
+Laziness is sometimes awesome. It's nice to handle infinite collections:
 
 .. code:: java
 
     Iterable<Integer> naturalNumbers = range(1);
     List<Integer> first10evenNaturalNumbers = newList(take(10, filter(Predicates.even, naturalNumbers)));
 
-But the most important thing is that we can filter and map etc really large sets without worrying about performance even if in the end we need just a single value of them. Even though it's a double-edged sword, all functions in functional-utils try to be as lazy as possible.
+But the most important thing is that we can filter and map (etc) really large sets without worrying about performance even if in the end we need just a single value of them. Even though it's a double-edged sword, all functions in functional-utils try to be as lazy as possible.
 
 No nulls
 """"""""
