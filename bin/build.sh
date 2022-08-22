@@ -1,5 +1,5 @@
 #! /usr/bin/env nix-shell
-#! nix-shell -i bash -p bash file pandoc nix
+#! nix-shell -i bash -p bash file pandoc
 set -eu
 
 DIR="$(dirname "${BASH_SOURCE[0]}")"
