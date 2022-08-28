@@ -37,6 +37,10 @@ $for(header-includes)$
 $endfor$
 </head>
 <body>
+<input id="lightmode" class="lightmode" type="checkbox">
+<label class="lightmode" for="lightmode" title="Switch between lightmode/darkmode"></label>
+<input id="darkmode" class="darkmode" type="checkbox">
+<label class="darkmode" for="darkmode" title="Switch between lightmode/darkmode"></label>
 <div class="container">
   <div class="header">
     <h1 class="blog"><span><a href="/">$title-suffix$</a></span> <a href="https://lahteenmaki.net">- lahteenmaki.net</a></h1>
