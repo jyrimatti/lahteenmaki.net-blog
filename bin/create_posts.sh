@@ -26,6 +26,7 @@ do
   	--template "$DIR/base.template" \
     --css "$extracss" \
     --css "styles.css" \
+    --highlight-style haddock \
     --section-divs \
     $keywords \
     --metadata 'filename':"$filename" \
