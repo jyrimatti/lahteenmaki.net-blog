@@ -45,7 +45,8 @@ $endfor$
   <div class="header">
     <h1 class="blog"><span><a href="/">$title-suffix$</a></span> <a href="https://lahteenmaki.net">- lahteenmaki.net</a></h1>
   </div>
-  <div class="section">
+  <div class="content">
+    <div class="section">
     $for(include-before)$
       $include-before$
     $endfor$
@@ -87,7 +88,7 @@ $body$
     <div class="addthis_inline_share_toolbox"></div>
 
     <a class="rss" href="/rss.xml"><img src="https://cdnjs.cloudflare.com/ajax/libs/webicons/2.0.0/webicons/webicon-rss.svg" /></a>
-  </div>
+    </div>
 
   $if(comments)$
     <div class="section" id="disqus_thread"></div>
@@ -107,7 +108,7 @@ $body$
     </script>
     <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>                   
   $endif$
-
+  </div>
 </div>
 
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-58c1b5fdec1759f1"></script>
