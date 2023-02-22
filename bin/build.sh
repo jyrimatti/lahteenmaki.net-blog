@@ -27,6 +27,7 @@ echo ' 1) list posts on the blog frontpage'
 echo ' 2) list posts as HTML in an external site'
 # Empty content since all data is within metadata
 pandoc "$DIR/empty.md" "$metadata" \
+    -V lang=en \
     --template "$DIR/fragment.template" \
     --to html5 \
     --output "$fragmentpath"
