@@ -29,6 +29,7 @@ do
     --highlight-style haddock \
     --section-divs \
     $keywords \
+    --metadata 'lang':"en" \
     --metadata 'filename':"$filename" \
     --metadata 'title-suffix':"$blogname" \
     --shift-heading-level-by=1 \

@@ -40,6 +40,7 @@ do
     --section-divs \
     --metadata 'title-suffix':"$blogname" \
     --metadata 'title':"Tag: $tag" \
+    --metadata 'lang':"en" \
     --to html5 \
     --include-after-body "$posts" \
     --output "tags/$tag/index.html"
