@@ -1,22 +1,13 @@
-html {
-	overflow-x: hidden;
-}
-
 .section {
 	width: 80%;
 	max-width: 50em;
-	padding: 2em;
+	padding: 2em min(2em 5%);
 	padding-bottom: 2.5em;
-	transform: none !important;
-	-webkit-transform: none !important;
-	-ms-transform: none !important;
-	-moz-transform: none !important;
-	-o-transform: none !important;
 	position: relative;
 }
 
 .section, .section h1 {
-	font-family: sans-serif;
+    font-family: sans-serif;
     font-weight: lighter;
 }
 
@@ -78,9 +69,6 @@ pre.sourceCode {
     font-size: 0.9em;
 }
 
-.header {
-	font-size: 0.75em;
-}
 h1 > a {
 	padding-left: 1em;
 	opacity: 0.3;
