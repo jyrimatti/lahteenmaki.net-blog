@@ -1,7 +1,7 @@
 .section {
 	width: 80%;
 	max-width: 50em;
-	padding: 2em min(2em 5%);
+	padding: 2em min(2em, 5%);
 	padding-bottom: 2.5em;
 	position: relative;
 }
