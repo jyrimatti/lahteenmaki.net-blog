@@ -46,6 +46,7 @@ p.date {
 	font-style: italic;
     font-size: 0.85em;
     padding-left: 1em;
+    padding-right: 1em;
     position: absolute;
     top: 0;
     left: 1em;
@@ -78,6 +79,7 @@ h1 > a {
 .posts {
 	font-family: serif;
 	float: left;
+	list-style-type: none;
 }
 
 ul.tags {
@@ -86,8 +88,11 @@ ul.tags {
     text-align: right;
 }
 
-li {
-	list-style-type: none;
+ol {
+	list-style-type: decimal;
+}
+ol li {
+	list-style-position: inside;
 }
 
 blockquote {
