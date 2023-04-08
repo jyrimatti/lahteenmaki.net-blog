@@ -4,7 +4,7 @@ Hard problems
 :Abstract: There are certain hard problems in any industry
 :Authors: Jyri-Matti Lähteenmäki
 :Date: 2023-04-08
-:Status: Draft
+:Status: Published
 
 There are certain hard problems in any industry. In software industry the following are quite widely considered to be the `two (!) hardest problems <https://www.martinfowler.com/bliki/TwoHardThings.html>`__:
 
