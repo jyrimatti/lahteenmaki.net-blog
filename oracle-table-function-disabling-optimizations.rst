@@ -3,13 +3,13 @@ Oracle table() function disabling optimizations
 
 :Abstract: Including table() function anywhere in a query in Oracle database disables some optimizations.
 :Authors: Jyri-Matti Lähteenmäki
-:Date: 2024-06-02
+:Date: 2024-09-06
 :Status: Draft
 
 
 I'm working in a project using Oracle database where we have many complex views and sometimes need separate functions to calculate things. We noticed that including ``table()`` function anywhere in a query disables some of Oracle's optimizations.
 
-The examples in this blog have been tested using Oracle 19c.
+The examples in this blog have been tested using Oracle 19.24.
 
 Creating test data
 ------------------
@@ -31,9 +31,6 @@ Let's create some test data, using a million rows to ensure we get realistic pla
 	  FOREIGN KEY(depid) REFERENCES department(depid)
 	);
 
-	CREATE INDEX depname_idx ON department(depname);
-	CREATE INDEX dep_idx ON employee(depid);
-	
 	BEGIN
 	  FOR i IN 1..1000 LOOP
 	    INSERT INTO department(depid, depname) VALUES (i, 'department-'||i);
@@ -45,6 +42,9 @@ Let's create some test data, using a million rows to ensure we get realistic pla
 	  COMMIT;
 	END;
 	/
+
+	CREATE INDEX depname_idx ON department(depname);
+	CREATE INDEX dep_idx ON employee(depid);
 	
 	CALL DBMS_STATS.GATHER_TABLE_STATS(user, 'department');
 	CALL DBMS_STATS.GATHER_TABLE_STATS(user, 'employee');
@@ -129,7 +129,7 @@ Now, let's see what happens when we make a trivial change of using a function re
 .. code:: sql
 
 	CREATE FUNCTION repeat_value(p_value IN NUMBER, p_amount IN NUMBER) RETURN SYS.ODCINUMBERLIST AS
-	  m_ret SYS.ODCINUMBERLIST := SYS.ODCINUMBERLIST();
+	    m_ret SYS.ODCINUMBERLIST := SYS.ODCINUMBERLIST();
 	BEGIN
 	    FOR i IN 1..p_amount LOOP
 	        m_ret.EXTEND;
@@ -149,19 +149,19 @@ Now, let's see what happens when we make a trivial change of using a function re
 	---------------------------------------------------------------------------------------------------------------------------------------------
 	| Id  | Operation                               | Name         | Starts | E-Rows | A-Rows |   A-Time   | Buffers |  OMem |  1Mem | Used-Mem |
 	---------------------------------------------------------------------------------------------------------------------------------------------
-	|   0 | SELECT STATEMENT                        |              |      1 |        |      1 |00:00:00.11 |    1831 |       |       |          |
-	|   1 |  SORT AGGREGATE                         |              |      1 |      1 |      1 |00:00:00.01 |       0 |       |       |          |
-	|   2 |   COLLECTION ITERATOR PICKLER FETCH     | REPEAT_VALUE |      1 |   8168 |  10000 |00:00:00.01 |       0 |       |       |          |
-	|*  3 |  HASH JOIN                              |              |      1 |      1 |      1 |00:00:00.11 |    1831 |  2546K|  2546K|  289K (0)|
-	|   4 |   JOIN FILTER CREATE                    | :BF0000      |      1 |      1 |      1 |00:00:00.01 |       2 |       |       |          |
-	|   5 |    VIEW                                 |              |      1 |      1 |      1 |00:00:00.01 |       2 |       |       |          |
-	|   6 |     HASH GROUP BY                       |              |      1 |      1 |      1 |00:00:00.01 |       2 |  1422K|  1422K|  530K (0)|
-	|*  7 |      TABLE ACCESS BY INDEX ROWID BATCHED| DEPARTMENT   |      1 |      1 |      1 |00:00:00.01 |       2 |       |       |          |
-	|   8 |       INDEX FULL SCAN                   | SYS_C0038872 |      1 |    100 |    100 |00:00:00.01 |       1 |       |       |          |
-	|   9 |   VIEW                                  |              |      1 |    100 |    100 |00:00:00.11 |    1829 |       |       |          |
-	|  10 |    HASH GROUP BY                        |              |      1 |    100 |    100 |00:00:00.11 |    1829 |  1558K|  1558K| 1429K (0)|
-	|  11 |     JOIN FILTER USE                     | :BF0000      |      1 |   1000K|   1000K|00:00:00.16 |    1829 |       |       |          |
-	|* 12 |      TABLE ACCESS FULL                  | EMPLOYEE     |      1 |   1000K|   1000K|00:00:00.07 |    1829 |       |       |          |
+	|   0 | SELECT STATEMENT                        |              |      1 |        |      1 |00:00:00.06 |    1958 |       |       |          |
+	|   1 |  SORT AGGREGATE                         |              |      1 |      1 |      1 |00:00:00.01 |      26 |       |       |          |
+	|   2 |   COLLECTION ITERATOR PICKLER FETCH     | REPEAT_VALUE |      1 |   8168 |   1000 |00:00:00.01 |      26 |       |       |          |
+	|*  3 |  HASH JOIN                              |              |      1 |      1 |      1 |00:00:00.06 |    1958 |  2546K|  2546K|  251K (0)|
+	|   4 |   JOIN FILTER CREATE                    | :BF0000      |      1 |      1 |      1 |00:00:00.01 |       3 |       |       |          |
+	|   5 |    VIEW                                 |              |      1 |      1 |      1 |00:00:00.01 |       3 |       |       |          |
+	|   6 |     HASH GROUP BY                       |              |      1 |      1 |      1 |00:00:00.01 |       3 |  1422K|  1422K|  491K (0)|
+	|   7 |      TABLE ACCESS BY INDEX ROWID BATCHED| DEPARTMENT   |      1 |      1 |      1 |00:00:00.01 |       3 |       |       |          |
+	|*  8 |       INDEX RANGE SCAN                  | DEPNAME_IDX  |      1 |      1 |      1 |00:00:00.01 |       2 |       |       |          |
+	|   9 |   VIEW                                  |              |      1 |   1000 |      1 |00:00:00.06 |    1955 |       |       |          |
+	|  10 |    HASH GROUP BY                        |              |      1 |   1000 |      1 |00:00:00.06 |    1955 |  1558K|  1558K|  493K (0)|
+	|  11 |     JOIN FILTER USE                     | :BF0000      |      1 |   1000K|   1000 |00:00:00.01 |    1955 |       |       |          |
+	|* 12 |      TABLE ACCESS FULL                  | EMPLOYEE     |      1 |   1000K|   1000 |00:00:00.01 |    1955 |       |       |          |
 	---------------------------------------------------------------------------------------------------------------------------------------------
 
 The plan is suddenly a lot slower. Oracle has switched into a `hash join<https://docs.oracle.com/en/database/oracle/oracle-database/23/tgsql/joins.html#GUID-91E61BDC-E5F2-49FA-99AE-DD88A2FBB4FB>`__ for some reason. Let's investigate by forcing it back into a nested loop with a `hint<https://docs.oracle.com/en/database/oracle/oracle-database/23/sqlrf/Comments.html#GUID-D316D545-89E2-4D54-977F-FC97815CD62E>`__:
@@ -178,20 +178,20 @@ The plan is suddenly a lot slower. Oracle has switched into a `hash join<https:/
 	--------------------------------------------------------------------------------------------------------------------------------------------
 	| Id  | Operation                              | Name         | Starts | E-Rows | A-Rows |   A-Time   | Buffers |  OMem |  1Mem | Used-Mem |
 	--------------------------------------------------------------------------------------------------------------------------------------------
-	|   0 | SELECT STATEMENT                       |              |      1 |        |      1 |00:00:00.11 |    1831 |       |       |          |
+	|   0 | SELECT STATEMENT                       |              |      1 |        |      1 |00:00:00.17 |    1958 |       |       |          |
 	|   1 |  SORT AGGREGATE                        |              |      1 |      1 |      1 |00:00:00.01 |       0 |       |       |          |
-	|   2 |   COLLECTION ITERATOR PICKLER FETCH    | REPEAT_VALUE |      1 |   8168 |  10000 |00:00:00.01 |       0 |       |       |          |
-	|   3 |  NESTED LOOPS                          |              |      1 |      1 |      1 |00:00:00.11 |    1831 |       |       |          |
-	|   4 |   VIEW                                 |              |      1 |      1 |      1 |00:00:00.01 |       2 |       |       |          |
-	|   5 |    HASH GROUP BY                       |              |      1 |      1 |      1 |00:00:00.01 |       2 |  1422K|  1422K|  532K (0)|
-	|*  6 |     TABLE ACCESS BY INDEX ROWID BATCHED| DEPARTMENT   |      1 |      1 |      1 |00:00:00.01 |       2 |       |       |          |
-	|   7 |      INDEX FULL SCAN                   | SYS_C0038872 |      1 |    100 |    100 |00:00:00.01 |       1 |       |       |          |
-	|*  8 |   VIEW                                 |              |      1 |      1 |      1 |00:00:00.11 |    1829 |       |       |          |
-	|   9 |    SORT GROUP BY                       |              |      1 |    100 |    100 |00:00:00.11 |    1829 |  6144 |  6144 | 6144  (0)|
-	|  10 |     TABLE ACCESS FULL                  | EMPLOYEE     |      1 |   1000K|   1000K|00:00:00.01 |    1829 |       |       |          |
+	|   2 |   COLLECTION ITERATOR PICKLER FETCH    | REPEAT_VALUE |      1 |   8168 |   1000 |00:00:00.01 |       0 |       |       |          |
+	|   3 |  NESTED LOOPS                          |              |      1 |      1 |      1 |00:00:00.17 |    1958 |       |       |          |
+	|   4 |   VIEW                                 |              |      1 |      1 |      1 |00:00:00.01 |       3 |       |       |          |
+	|   5 |    HASH GROUP BY                       |              |      1 |      1 |      1 |00:00:00.01 |       3 |  1422K|  1422K|  495K (0)|
+	|   6 |     TABLE ACCESS BY INDEX ROWID BATCHED| DEPARTMENT   |      1 |      1 |      1 |00:00:00.01 |       3 |       |       |          |
+	|*  7 |      INDEX RANGE SCAN                  | DEPNAME_IDX  |      1 |      1 |      1 |00:00:00.01 |       2 |       |       |          |
+	|*  8 |   VIEW                                 |              |      1 |      1 |      1 |00:00:00.17 |    1955 |       |       |          |
+	|   9 |    SORT GROUP BY                       |              |      1 |   1000 |   1000 |00:00:00.17 |    1955 | 64512 | 64512 |57344  (0)|
+	|  10 |     TABLE ACCESS FULL                  | EMPLOYEE     |      1 |   1000K|   1000K|00:00:00.02 |    1955 |       |       |          |
 	--------------------------------------------------------------------------------------------------------------------------------------------
 
-Turns out Oracle is using `full scans<https://docs.oracle.com/en/database/oracle/oracle-database/23/tgsql/optimizer-access-paths.html#GUID-461E7071-2229-4F60-82E6-BC4F6FC8D23B>`__ instead of index access, which is probably why it decided to go with a hash join instead. But why? By just adding an innocent function call, our plan seems to have lost its ability to push predicates into views!
+Turns out Oracle is using a `full scan<https://docs.oracle.com/en/database/oracle/oracle-database/23/tgsql/optimizer-access-paths.html#GUID-461E7071-2229-4F60-82E6-BC4F6FC8D23B>`__ instead of index access, which is probably why it decided to go with a hash join instead. But why? By just adding an innocent function call, our plan seems to have lost its ability to push predicates into views!
 
 There's a support case `Table Function Disables Push Predicate Query Transformation (Doc ID 3003810.1)<https://support.oracle.com/epmos/faces/DocumentDisplay?id=3003810.1>`__ about this, which says:
 
@@ -199,7 +199,34 @@ There's a support case `Table Function Disables Push Predicate Query Transformat
 
 	Solution: Re-write the query without the TABLE() Function.
 
-So, whenever we need to add ``table()`` function for whatever reason, some important optimizations are disabled. Sometimes you can leave out the table-wrapper, but that's just syntactic sugar and doesn't change anything. Unfortunately ``table()`` function is needed for various cases:
+So, whenever we need to add ``table()`` function for whatever reason, some important optimizations are disabled. Sometimes you don't need to write the table-wrapper, but that's just syntactic sugar and doesn't change anything. Neither does trying to force predicate push-down:
+
+.. code:: sql
+
+	SELECT /*+ GATHER_PLAN_STATISTICS USE_NL(d e) PUSH_PRED(e) */ (SELECT count(*) FROM repeat_value(1, emps))
+	FROM (SELECT depid, depname FROM department GROUP BY depid, depname) d
+	JOIN (SELECT depid, count(*) emps FROM employee GROUP BY depid) e ON e.depid = d.depid
+	WHERE depname = 'department-1';
+	
+	SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY_CURSOR(format => 'allstats last'));
+	
+	--------------------------------------------------------------------------------------------------------------------------------------------
+	| Id  | Operation                              | Name         | Starts | E-Rows | A-Rows |   A-Time   | Buffers |  OMem |  1Mem | Used-Mem |
+	--------------------------------------------------------------------------------------------------------------------------------------------
+	|   0 | SELECT STATEMENT                       |              |      1 |        |      1 |00:00:00.18 |    1958 |       |       |          |
+	|   1 |  SORT AGGREGATE                        |              |      1 |      1 |      1 |00:00:00.01 |       0 |       |       |          |
+	|   2 |   COLLECTION ITERATOR PICKLER FETCH    | REPEAT_VALUE |      1 |   8168 |   1000 |00:00:00.01 |       0 |       |       |          |
+	|   3 |  NESTED LOOPS                          |              |      1 |      1 |      1 |00:00:00.18 |    1958 |       |       |          |
+	|   4 |   VIEW                                 |              |      1 |      1 |      1 |00:00:00.01 |       3 |       |       |          |
+	|   5 |    HASH GROUP BY                       |              |      1 |      1 |      1 |00:00:00.01 |       3 |  1422K|  1422K|  531K (0)|
+	|   6 |     TABLE ACCESS BY INDEX ROWID BATCHED| DEPARTMENT   |      1 |      1 |      1 |00:00:00.01 |       3 |       |       |          |
+	|*  7 |      INDEX RANGE SCAN                  | DEPNAME_IDX  |      1 |      1 |      1 |00:00:00.01 |       2 |       |       |          |
+	|*  8 |   VIEW                                 |              |      1 |      1 |      1 |00:00:00.18 |    1955 |       |       |          |
+	|   9 |    SORT GROUP BY                       |              |      1 |   1000 |   1000 |00:00:00.18 |    1955 | 64512 | 64512 |57344  (0)|
+	|  10 |     TABLE ACCESS FULL                  | EMPLOYEE     |      1 |   1000K|   1000K|00:00:00.02 |    1955 |       |       |          |
+	--------------------------------------------------------------------------------------------------------------------------------------------
+
+Unfortunately ``table()`` function is needed for various cases:
 
 - use a function returning a varray/table/pipelined-table
 - use `polymorphic table functions<https://blog.lahteenmaki.net/brief-intro-to-oracle-macros-etc.html>`__
@@ -217,7 +244,7 @@ Instead of returning multiple values from a function, return them as a ``VARCHAR
 .. code:: sql
 
 	CREATE FUNCTION repeat_value_str(p_value IN NUMBER, p_amount IN NUMBER) RETURN VARCHAR2 AS
-	  m_ret VARCHAR2(32767);
+	    m_ret VARCHAR2(32767);
 	BEGIN
 	    FOR i IN 1..p_amount-1 LOOP
 	        m_ret := m_ret||p_value;
@@ -228,19 +255,19 @@ Instead of returning multiple values from a function, return them as a ``VARCHAR
 	END;
 	/
 	
-Then use `regular expressions<https://docs.oracle.com/en/database/oracle/oracle-database/23/sqlrf/REGEXP_SUBSTR.html>`__ to split the string into a ``UNION ALL`` one value at a time. This only works if you know the maximum possible amount of values, and there can't be hundreds of them. In this case I've added support for max 5 values, which obviously is not enough for our 10000 employee departments:
+Then use `regular expressions<https://docs.oracle.com/en/database/oracle/oracle-database/23/sqlrf/REGEXP_SUBSTR.html>`__ to split the string into a ``UNION ALL`` one value at a time. This only works if you know the maximum possible amount of values, and there can't be hundreds of them. In this case I've added support for max 5 values, which obviously is not enough for our 1000 employee departments:
 
 .. code:: sql
 
 	SELECT /*+ GATHER_PLAN_STATISTICS USE_NL(d e) */ (
 	    SELECT count(*)
 	    FROM (SELECT a, regexp_count(a, '[^_]+') b FROM (SELECT /*+ NO_MERGE */ repeat_value_str(1, LEAST(emps, 5)) a FROM DUAL)) foo,
-	    LATERAL (SELECT regexp_substr(a, '[^_]+', 1, 1) c  FROM DUAL WHERE b >= 1 UNION ALL
-	             SELECT regexp_substr(a, '[^_]+', 1, 2) c  FROM DUAL WHERE b >= 2 UNION ALL
-	             SELECT regexp_substr(a, '[^_]+', 1, 3) c  FROM DUAL WHERE b >= 3 UNION ALL
-	             SELECT regexp_substr(a, '[^_]+', 1, 4) c  FROM DUAL WHERE b >= 4 UNION ALL
-	             SELECT regexp_substr(a, '[^_]+', 1, 5) c  FROM DUAL WHERE b >= 5
-	              AND 1 = CASE WHEN b <= 5 THEN 1 ELSE to_number('a') END)
+	    LATERAL (SELECT regexp_substr(a, '[^_]+', 1, 1) c  FROM DUAL UNION ALL
+	             SELECT regexp_substr(a, '[^_]+', 1, 2) c  FROM DUAL UNION ALL
+	             SELECT regexp_substr(a, '[^_]+', 1, 3) c  FROM DUAL UNION ALL
+	             SELECT regexp_substr(a, '[^_]+', 1, 4) c  FROM DUAL UNION ALL
+	             SELECT regexp_substr(a, '[^_]+', 1, 5) c  FROM DUAL
+	             WHERE 1 = CASE WHEN b <= 5 THEN 1 ELSE to_number('a') END)
 	    WHERE c IS NOT NULL
 	)
 	FROM (SELECT depid, depname FROM department GROUP BY depid, depname) d
@@ -256,10 +283,10 @@ If we look at the plan, it's back into pushing down predicates. Note that the ``
 	-----------------------------------------------------------------------------------------------------------------------------------------------
 	| Id  | Operation                              | Name            | Starts | E-Rows | A-Rows |   A-Time   | Buffers |  OMem |  1Mem | Used-Mem |
 	-----------------------------------------------------------------------------------------------------------------------------------------------
-	|   0 | SELECT STATEMENT                       |                 |      1 |        |      1 |00:00:00.01 |      28 |       |       |          |
-	|   1 |  SORT AGGREGATE                        |                 |      1 |      1 |      1 |00:00:00.01 |       0 |       |       |          |
-	|   2 |   NESTED LOOPS                         |                 |      1 |      5 |      5 |00:00:00.01 |       0 |       |       |          |
-	|   3 |    VIEW                                |                 |      1 |      1 |      1 |00:00:00.01 |       0 |       |       |          |
+	|   0 | SELECT STATEMENT                       |                 |      1 |        |      1 |00:00:00.01 |       7 |       |       |          |
+	|   1 |  SORT AGGREGATE                        |                 |      1 |      1 |      1 |00:00:00.01 |      25 |       |       |          |
+	|   2 |   NESTED LOOPS                         |                 |      1 |      5 |      5 |00:00:00.01 |      25 |       |       |          |
+	|   3 |    VIEW                                |                 |      1 |      1 |      1 |00:00:00.01 |      25 |       |       |          |
 	|   4 |     FAST DUAL                          |                 |      1 |      1 |      1 |00:00:00.01 |       0 |       |       |          |
 	|   5 |    VIEW                                | VW_LAT_33CB5887 |      1 |      5 |      5 |00:00:00.01 |       0 |       |       |          |
 	|   6 |     UNION-ALL                          |                 |      1 |        |      5 |00:00:00.01 |       0 |       |       |          |
@@ -273,18 +300,18 @@ If we look at the plan, it's back into pushing down predicates. Note that the ``
 	|  14 |       FAST DUAL                        |                 |      1 |      1 |      1 |00:00:00.01 |       0 |       |       |          |
 	|* 15 |      FILTER                            |                 |      1 |        |      1 |00:00:00.01 |       0 |       |       |          |
 	|  16 |       FAST DUAL                        |                 |      1 |      1 |      1 |00:00:00.01 |       0 |       |       |          |
-	|  17 |  NESTED LOOPS                          |                 |      1 |      1 |      1 |00:00:00.01 |      28 |       |       |          |
-	|  18 |   VIEW                                 |                 |      1 |      1 |      1 |00:00:00.01 |       2 |       |       |          |
-	|  19 |    HASH GROUP BY                       |                 |      1 |      1 |      1 |00:00:00.01 |       2 |  1422K|  1422K|  493K (0)|
-	|* 20 |     TABLE ACCESS BY INDEX ROWID BATCHED| DEPARTMENT      |      1 |      1 |      1 |00:00:00.01 |       2 |       |       |          |
-	|  21 |      INDEX FULL SCAN                   | SYS_C0038872    |      1 |    100 |    100 |00:00:00.01 |       1 |       |       |          |
-	|  22 |   VIEW PUSHED PREDICATE                |                 |      1 |      1 |      1 |00:00:00.01 |      26 |       |       |          |
-	|* 23 |    FILTER                              |                 |      1 |        |      1 |00:00:00.01 |      26 |       |       |          |
-	|  24 |     SORT AGGREGATE                     |                 |      1 |      1 |      1 |00:00:00.01 |      26 |       |       |          |
-	|* 25 |      INDEX RANGE SCAN                  | DEP_IDX         |      1 |  10000 |  10000 |00:00:00.01 |      26 |       |       |          |
+	|  17 |  NESTED LOOPS                          |                 |      1 |      1 |      1 |00:00:00.01 |       7 |       |       |          |
+	|  18 |   VIEW                                 |                 |      1 |      1 |      1 |00:00:00.01 |       3 |       |       |          |
+	|  19 |    HASH GROUP BY                       |                 |      1 |      1 |      1 |00:00:00.01 |       3 |  1422K|  1422K|  492K (0)|
+	|  20 |     TABLE ACCESS BY INDEX ROWID BATCHED| DEPARTMENT      |      1 |      1 |      1 |00:00:00.01 |       3 |       |       |          |
+	|* 21 |      INDEX RANGE SCAN                  | DEPNAME_IDX     |      1 |      1 |      1 |00:00:00.01 |       2 |       |       |          |
+	|  22 |   VIEW PUSHED PREDICATE                |                 |      1 |      1 |      1 |00:00:00.01 |       4 |       |       |          |
+	|* 23 |    FILTER                              |                 |      1 |        |      1 |00:00:00.01 |       4 |       |       |          |
+	|  24 |     SORT AGGREGATE                     |                 |      1 |      1 |      1 |00:00:00.01 |       4 |       |       |          |
+	|* 25 |      INDEX RANGE SCAN                  | DEP_IDX         |      1 |   1000 |   1000 |00:00:00.01 |       4 |       |       |          |
 	-----------------------------------------------------------------------------------------------------------------------------------------------
 
-As a side note: notice that Oracle is still performing a full index scan for department table. I don't know why, but an index scan can be forced with a hint ``INDEX(d depname_idx)``.
+Unfortunately, there is no free lunch. Especially when the amount of branches goes into hundreds, hard parsing time tends to blow up several seconds, depending somewhat on the surrounding query. So we are essentially trading off parsing time for query execution time. You need to consider which one is more important for your use cases, although Oracle being able to `share parsed queries<https://docs.oracle.com/en/database/oracle/oracle-database/23/cncpt/memory-architecture.html#GUID-DE757E9C-3437-408A-8598-3EB4C8E2A3B0>`__ often makes long parse times a non-issue.
 
 Summary
 -------
