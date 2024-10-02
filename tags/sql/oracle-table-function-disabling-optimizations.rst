@@ -1,0 +1,1 @@
+../../oracle-table-function-disabling-optimizations.rst
