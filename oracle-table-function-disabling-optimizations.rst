@@ -3,8 +3,8 @@ Oracle table() function disabling optimizations
 
 :Abstract: Including table() function anywhere in a query in Oracle database disables some optimizations.
 :Authors: Jyri-Matti Lähteenmäki
-:Date: 2024-09-06
-:Status: Draft
+:Date: 2024-10-02
+:Status: Published
 
 
 I'm working in a project using Oracle database where we have many complex views and sometimes need separate functions to calculate things. We noticed that including ``table()`` function anywhere in a query disables some of Oracle's optimizations.
