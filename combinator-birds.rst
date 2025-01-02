@@ -39,6 +39,21 @@ Sources:
 - `http://dkeenan.com/Lambda/index.htm <http://dkeenan.com/Lambda/index.htm>`__
 - `http://hackage.haskell.org/package/data-aviary-0.4.0/docs/Data-Aviary-Birds.html <http://hackage.haskell.org/package/data-aviary-0.4.0/docs/Data-Aviary-Birds.html>`__
 
+1. arg arity
+  How many arguments does the first function take if it's a function.
+
+Permuting
+  From the book. Switches the order of some variables.
+
+Duplicative
+  From the book: "It has what is called a duplicative effect - it causes repetition of variables."
+
+order
+  From the book: "By a bird of order 1 is meant a bird A such that for any bird x, the bird Ax can be expressed in terms of x alone."
+
+regular
+  From the book: "By a regular combinator is meant a proper combinator such that, in its definition, the leftmost variable - say, x - of the left side of the equality is also the leftmost variable of the right side and occurs only once on the right side."
+
 +-------+------------------------+----------------------------------------------------------------------------+----------------------------------------------------+---------------+----------------------------------------+----------------------------------------------------------------------------------------------------------+------+-----+-----+-----+-----+
 | | c   | bird                   | type                                                                       | implementation                                     | in            | point-free                             | intuition                                                                                                | | 1. | | p | | d | | o | | r |
 | | o   |                        |                                                                            |                                                    | Haskell       |                                        |                                                                                                          | |    | | e | | u | | r | | e |
